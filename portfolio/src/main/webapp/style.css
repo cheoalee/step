@@ -1,9 +1,55 @@
 #content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 80%;
 }
 
 #greeting-container {
   margin-top: 20px;
+}
+
+.sansserif {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* styling only for apl page "logo" */
+.header {
+  margin-left: 5%;
+  text-align: left;
+  background: white;
+}
+
+/* Horizontally center content on the page */
+.centered {
+  bottom: 45%; /* not 50% (exactly centered) due to space taken up by apl logo at top */
+  transform: translate(0%,50%);
+  position: absolute;
+}
+
+/* All page headers */
+h1 {
+  text-align: left;
+  color: #2F89FC;
+  font-size: 500%;
+}
+
+/* used only for apl page "logo"*/
+h2 {
+  text-align: left;
+  color: #060608;
+  font-size: 300%;
+}
+
+p {
+  text-align: left;
+  color: #060608;
+  font-size: 250%;
+}
+
+img {
+  vertical-align: top;
+  float:right;
+  width: 800px;
+  height: 800px;
+  padding: 5px;
 }
