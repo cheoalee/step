@@ -1065,33 +1065,33 @@ h1,
 h2,
 h3,
 h4 {
-	color: hsl(240, 8%, 12%);
+	color: #060608;
 	color: var(--color-contrast-higher, #1c1c21);
-	line-height: 1.2;
+	line-height: 1;
 	line-height: var(--heading-line-height, 1.2)
 }
 
 .text-xxxl {
-	font-size: 2.48832em;
-	font-size: var(--text-xxxl, 2.488em)
+	font-size: 1.5em;
+	font-size: var(--text-xxxl, 1.5em)
 }
 
 h1,
 .text-xxl {
-	font-size: 2.0736em;
-	font-size: var(--text-xxl, 2.074em)
+	font-size: 1.5em;
+	font-size: var(--text-xxl, 1.5em)
 }
 
 h2,
 .text-xl {
-	font-size: 1.728em;
-	font-size: var(--text-xl, 1.728em)
+	font-size: 1em;
+	font-size: var(--text-xl, 1em)
 }
 
 h3,
 .text-lg {
-	font-size: 1.44em;
-	font-size: var(--text-lg, 1.44em)
+	font-size: .75em;
+	font-size: var(--text-lg, .75em)
 }
 
 h4,
@@ -3379,8 +3379,8 @@ u,
 
 :root {
 	--font-primary: sans-serif;
-	--text-base-size: 1em;
-	--text-scale-ratio: 1.2;
+	--text-base-size: .75em;
+	--text-scale-ratio: 1;
 	--text-xs: calc(1em/var(--text-scale-ratio)/var(--text-scale-ratio));
 	--text-sm: calc(var(--text-xs)*var(--text-scale-ratio));
 	--text-md: calc(var(--text-sm)*var(--text-scale-ratio)*var(--text-scale-ratio));
@@ -3798,12 +3798,19 @@ body {
 }
 
 .js .cd-h-timeline__event-title {
-	color: hsl(0, 0%, 22%);
+	color: #060608;
 	color: var(--cd-color-1);
     font-family: Arial, Helvetica, sans-serif;
 	font-weight: 700;
-	font-size: 2.48832em;
-	font-size: var(--text-xxxl)
+	font-size: 0.5em;
+	font-size: var(--text-xxl)
+}
+.js .cd-h-timeline__event-subtitle {
+	color: #2F89FC;
+    font-family: Arial, Helvetica, sans-serif;
+    display: block;
+	margin: 0.5em auto;
+	margin: var(--space-xs) auto
 }
 
 .js .cd-h-timeline__event-date {
@@ -3813,8 +3820,15 @@ body {
 	margin: var(--space-xs) auto
 }
 
+/*
+Not sure how to change description spacing
+.js .cd-h-timeline__event-description color-contrast-medium {
+    line-height: 0.75;
+}
+*/
+
 .js .cd-h-timeline__event-date::before {
-	content: '- '
+	content: ''
 }
 
 @-webkit-keyframes cd-enter-right {
