@@ -9,7 +9,7 @@
   <body>
 
     <!-- Navigation -->
-    <img class ="navicon" src="images/hamburger_navicon.svg" onclick="openNav()"/>
+    <img id ="navicon" src="images/hamburger_navicon.svg" onclick="openNav()"/>
 
     <div id="sideNavigation" class="sidenav">
         <a href="javascript:void(0)" class="closeButton" onclick="closeNav()">&times;</a>
@@ -17,10 +17,12 @@
         <p class="sansserif navtext"><a href="#">Experience</a></p>
         <p class="sansserif navtext"><a href="#">Portfolio</a></p>
         <p class="sansserif navtext"><a href="#">Contact</a></p>
-        <!-- TODO: Why do the images shift down after links are added? -->
-        <a href="https://linkedin.com/in/angelapl"><img class="navbottom" src="images/linkedin_white.png"/></a>
-        <a href="https://linkedin.com/in/angelapl"><img class="navbottom" src="images/behance_white.png"/></a>
-        <a href="https://linkedin.com/in/angelapl"><img class="navbottom" src="images/github_white.png"/></a>
+        <div class = "navbottom">
+            <!--TODO: Figure out why the icons shift down a tiny bit -->
+            <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/linkedin_white.png"/></a>
+            <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/behance_white.png"/></a>
+            <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/github_white_updated.png"/></a>
+        </div>
     </div>
 
     <script>
