@@ -5,10 +5,11 @@
     <title>Angela's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    
   </head>
   <body>
 
-    <!-- Navigation -->
+    <!--Navigation-->
     <img id ="navicon" src="images/hamburger_navicon.svg" onclick="openNav()"/>
 
     <div id="sideNavigation" class="sidenav">
@@ -18,7 +19,7 @@
         <p class="sansserif navtext"><a href="#">Portfolio</a></p>
         <p class="sansserif navtext"><a href="#">Contact</a></p>
         <div class = "navbottom">
-            <!--TODO: Figure out why the icons shift down a tiny bit -->
+            <!--TODO: Figure out why the icons shift down a tiny bit-->
             <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/linkedin_white.png"/></a>
             <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/behance_white.png"/></a>
             <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/github_white_updated.png"/></a>
@@ -35,21 +36,37 @@
     }
     </script>
 
-    <!-- Logo -->
+    <!--Logo-->
     <div class="header">
          <h2 class="sansserif">apl</h2>
     </div>
 
-    <!-- Info -->
-    <div id="content" class="centered">
-      <img class="center" src="images/line_portrait.png"/>
+    <!--About-->
+    <section class="content main">
+      <img class="right" src="images/line_portrait.png"/>
       <h1 class="sansserif">Hello there! I'm Angela.</h1>
       <p class = "sansserif">I am a <span style="color:#2F89FC;">student</span> at UC Berkeley studying computer science and design innovation.</p>
       <p class = "sansserif">Currently, I'm working as a <span style="color:#2F89FC;">STEP intern at Google. </span> I'm passionate about accessibility, graphic design, hiking, and dog-petting.</p>
       <!-- <p>Click here to get a random message:</p>
       <button onclick="addRandomGreeting()">Hello</button>
       <div id="greeting-container"></div>-->
-    </div>
+    </section>
+
+    <section class="content secondary">
+      <h1 class="sansserif">Experience</h1>
+      <p class = "sansserif"><a href="#">Resume</a></p>
+      <!--Timeline below from CodyHouse. License: https://codyhouse.co/mit-->
+      <object data="horiz-timeline.html" style="width:100%;height:50vh;"></object>
+    </section>
+
+    <section id="post-timeline" class="content">
+      <h1 class="sansserif">Experience</h1>
+      <p class = "sansserif"><a href="#">Resume</a></p>
+      <p class = "sansserif tertiary"> test </p>
+      <!-- <p>Click here to get a random message:</p>
+      <button onclick="addRandomGreeting()">Hello</button>
+      <div id="greeting-container"></div>-->
+    </section>
 
   </body>
 </html>

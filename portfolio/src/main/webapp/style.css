@@ -1,7 +1,11 @@
-#content {
+.content {
   margin-left: 5%;
-  margin-right: 5%;
+  margin-right: auto;
   width: 80%;
+}
+
+#post-timeline {
+    margin-top: 17%;
 }
 
 #greeting-container {
@@ -9,9 +13,9 @@
 }
 
 #navicon {
-    left:80%;   /* width of #content */
+    position: fixed;
+    left: 80%;   /* width of #content */
     top: 0;
-    position: absolute;
 }
 
 .sansserif {
@@ -26,10 +30,18 @@
 }
 
 /* Horizontally center content on the page */
-.centered {
+.main {
   bottom: 45%; /* not 50% (exactly centered) due to space taken up by apl logo at top */
   transform: translate(0%,50%);
   position: absolute;
+}
+
+.secondary {
+    margin-top: 50%;
+}
+
+.tertiary {
+    margin-top: 20%;
 }
 
 /* navbar text */
@@ -93,6 +105,7 @@ h1 {
   text-align: left;
   color: #2F89FC;
   font-size: 500%;
+  line-height: .5em
 }
 
 /* used only for apl page "logo"*/
@@ -109,7 +122,7 @@ p {
   font-size: 250%;
 }
 
-img.center {
+img.right {
   vertical-align: top;
   float:right;
   width: 800px;
