@@ -26,6 +26,54 @@
   position: absolute;
 }
 
+/* navbar text */
+.navtext {
+    color: white;
+    padding-left: 10%;
+}
+
+.navbottom {
+    width: 100px;
+    height: auto;
+    padding-left: 10%;
+    margin-top: 120%; /* TODO: Re-check */
+    float: left;
+}
+
+/* Navbar (expanded) */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 80%;
+  background-color: #2F89FC;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  color: #ffffff;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: lightgrey;
+}
+
+.sidenav .closeButton {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+
 /* All page headers */
 h1 {
   text-align: left;
@@ -34,6 +82,7 @@ h1 {
 }
 
 /* used only for apl page "logo"*/
+/* TODO: FIGURE OUT HOW TO DYANMICALLY RESIZE THIS */
 h2 {
   text-align: left;
   color: #060608;
@@ -46,10 +95,17 @@ p {
   font-size: 250%;
 }
 
-img {
+img.center {
   vertical-align: top;
   float:right;
   width: 800px;
-  height: 800px;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
   padding: 5px;
+}
+
+img.navicon {
+    left:80%;   /* width of #content */
+    position: absolute;
 }

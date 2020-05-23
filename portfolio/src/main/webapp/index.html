@@ -8,12 +8,39 @@
   </head>
   <body>
 
+    <!-- Navigation -->
+    <img class ="navicon" src="images/hamburger_navicon.svg" onclick="openNav()"/>
+
+    <div id="sideNavigation" class="sidenav">
+        <a href="javascript:void(0)" class="closeButton" onclick="closeNav()">&times;</a>
+        <p class="sansserif navtext"><a href="#">About</a></p>
+        <p class="sansserif navtext"><a href="#">Experience</a></p>
+        <p class="sansserif navtext"><a href="#">Portfolio</a></p>
+        <p class="sansserif navtext"><a href="#">Contact</a></p>
+        <!-- TODO: Why do the images shift down after links are added? -->
+        <a href="https://linkedin.com/in/angelapl"><img class="navbottom" src="images/linkedin_white.png"/></a>
+        <a href="https://linkedin.com/in/angelapl"><img class="navbottom" src="images/behance_white.png"/></a>
+        <a href="https://linkedin.com/in/angelapl"><img class="navbottom" src="images/github_white.png"/></a>
+    </div>
+
+    <script>
+    function openNav() {
+    document.getElementById("sideNavigation").style.width = "20%"; <!--Navicon at 80%-->
+    }
+
+    function closeNav() {
+    document.getElementById("sideNavigation").style.width = "0";
+    }
+    </script>
+
+    <!-- Logo -->
     <div class="header">
          <h2 class="sansserif">apl</h2>
     </div>
 
+    <!-- Info -->
     <div id="content" class="centered">
-      <img src="images/line_portrait.png"/>
+      <img class="center" src="images/line_portrait.png"/>
       <h1 class="sansserif">Hello there! I'm Angela.</h1>
       <p class = "sansserif">I am a <span style="color:#2F89FC;">student</span> at UC Berkeley studying computer science and design innovation.</p>
       <p class = "sansserif">Currently, I'm working as a <span style="color:#2F89FC;">STEP intern at Google. </span> I'm passionate about accessibility, graphic design, hiking, and dog-petting.</p>
@@ -21,5 +48,6 @@
       <button onclick="addRandomGreeting()">Hello</button>
       <div id="greeting-container"></div>-->
     </div>
+
   </body>
 </html>
