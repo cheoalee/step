@@ -22,13 +22,6 @@
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* styling only for apl page "logo" */
-.header {
-  margin-left: 5%;
-  text-align: left;
-  background: white;
-}
-
 .button {
   background-color: #2F89FC;
   border: none;
@@ -40,6 +33,28 @@
   padding: 1.5%;
   border-radius: 1.5em;
 }
+
+/* Link styling */
+a:link {
+  color: #060608;
+  background-color: transparent;
+}
+a:visited {
+  color: lightgrey;
+  background-color: transparent;
+}
+a:hover {
+  color: #2F89FC;
+  background-color: transparent;
+}
+
+/* styling only for apl page "logo" */
+.header {
+  margin-left: 5%;
+  text-align: left;
+  background: white;
+}
+
 
 /* Horizontally center content on the page */
 .main {

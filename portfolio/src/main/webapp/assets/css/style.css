@@ -1111,11 +1111,19 @@ small,
 	font-size: var(--text-xs, 0.694em)
 }
 
-a,
-.link {
-	color: hsl(220, 90%, 56%);
-	color: var(--color-primary, #2a6df4);
-	text-decoration: underline
+a:link {
+	color: #060608;
+	color: var(--color-primary, #060608);
+}
+
+a:visited {
+  color: grey;
+  background-color: transparent;
+}
+
+a:hover {
+  color: #2F89FC;
+  background-color: transparent;
 }
 
 strong,
