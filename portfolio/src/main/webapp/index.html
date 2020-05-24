@@ -18,12 +18,9 @@
         <p class="sansserif navtext"><a href="#">Experience</a></p>
         <p class="sansserif navtext"><a href="#">Portfolio</a></p>
         <p class="sansserif navtext"><a href="#">Contact</a></p>
-        <div class = "navbottom">
-            <!--TODO: Figure out why the icons shift down a tiny bit-->
-            <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/linkedin_white.png"/></a>
-            <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/behance_white.png"/></a>
-            <a href="https://linkedin.com/in/angelapl"><img class="navsocials" src="images/github_white_updated.png"/></a>
-        </div>
+        <a href="https://linkedin.com/in/angelapl"><img class="navbottom navsocials" src="images/linkedin_white.png"/></a>
+        <a href="https://linkedin.com/in/angelapl"><img class="navbottom navsocials" src="images/behance_white.png"/></a>
+        <a href="https://linkedin.com/in/angelapl"><img class="navbottom navsocials" src="images/github_white_updated.png"/></a>
     </div>
 
     <script>
@@ -52,7 +49,7 @@
       <div id="greeting-container"></div>-->
     </section>
 
-    <section class="content secondary">
+    <section id="experience" class="content">
       <h1 class="sansserif">Experience</h1>
       <p class = "sansserif"><a href="#">Resume</a></p>
       <!--Timeline below from CodyHouse. License: https://codyhouse.co/mit-->
@@ -60,12 +57,28 @@
     </section>
 
     <section id="post-timeline" class="content">
-      <h1 class="sansserif">Experience</h1>
-      <p class = "sansserif"><a href="#">Resume</a></p>
-      <p class = "sansserif tertiary"> test </p>
-      <!-- <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>-->
+      <h1 class="sansserif">Portfolio</h1>
+      <p class = "sansserif">Here are a few of my favorites. You can find the rest on <a href="#">my Behance!</a></p>
+        <img class="behancesamples" src="images/plant_behance.jpg"/>
+        <img class="behancesamples" style = "padding-left: 5%" src="images/flowers_behance.png"/>
+    </section>
+
+    <section id="fabrication" class="content">
+      <h1 class="sansserif">Fabrication & Digital Art</h1>
+      <p class = "sansserif">Explorations from UC Berkeley's Creative Programming & Electronics Course.</a></p>
+        <img class="videosamples" src="images/plant_behance.jpg"/>
+        <img class="videosamples" style = "padding-left: 3%" src="images/flowers_behance.png"/>
+        <img class="videosamples" style = "padding-left: 3%" src="images/flowers_behance.png"/>
+    </section>
+
+    <section id="fabrication" class="content">
+      <h1 class="sansserif">Let's Connect!</h1>
+      <p class = "sansserif">Want to discuss the latest in tech? Share recipes? Enthuse about dogs? Recommend new TV shows? Introduce me to a new hobby? Grab coffee? If you said yes to any of the above or have a question of your own...</p>
+        <button class="button buttonconnect">Contact me</button>
+    </section>
+
+    <section id="end" class="content">
+        <img class="endillustration" src="images/end_illustration.svg"/>
     </section>
 
   </body>

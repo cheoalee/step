@@ -29,6 +29,18 @@
   background: white;
 }
 
+.button {
+  background-color: #2F89FC;
+  border: none;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2em;
+  padding: 1.5%;
+  border-radius: 1.5em;
+}
+
 /* Horizontally center content on the page */
 .main {
   bottom: 45%; /* not 50% (exactly centered) due to space taken up by apl logo at top */
@@ -36,12 +48,20 @@
   position: absolute;
 }
 
-.secondary {
+#experience {
     margin-top: 50%;
 }
 
-.tertiary {
-    margin-top: 20%;
+#portfolio {
+    margin-top: 45%;
+}
+
+#fabrication {
+    margin-top: 45%;
+}
+
+#end {
+    margin-top: 0%;
 }
 
 /* navbar text */
@@ -58,12 +78,34 @@
     justify-content: center;
 }
 
+/* Graphics */
 .navsocials {
     position: relative;
     width: 100px;
     height: auto;
     padding-left: 5%;
     float: left;
+}
+
+.behancesamples {
+    margin-top: 3%;
+    position: relative;
+    width: 45%;
+    height: auto;
+    float: left;
+}
+
+.videosamples {
+    margin-top: 3%;
+    position: relative;
+    width: 30%;
+    height: auto;
+    float: left;
+}
+
+.endillustration {
+    width: 100%;
+    height: auto;
 }
 
 /* Navbar (expanded) */
