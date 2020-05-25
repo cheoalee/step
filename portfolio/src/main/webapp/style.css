@@ -15,12 +15,17 @@
 #navicon {
     position: fixed;
     z-index: 999;
-    left: 80%;   /* width of #content */
+    height: 12%;
+    left: 80%;   /* width of .content */
     top: 0;
 }
 
 .sansserif {
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.caption {
+    font-size: 50%;
 }
 
 .button {
@@ -30,9 +35,10 @@
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 2em;
-  padding: 1.5%;
+  font-size: 150%;
+  padding: .75%;
   border-radius: 1.5em;
+  margin-bottom: 0%;
 }
 
 /* Link styling */
@@ -56,6 +62,10 @@ a:hover {
   background: white;
 }
 
+#logo {
+    color:#060608;
+    margin-top:3%;
+}
 
 /* Horizontally center content on the page */
 .main {
@@ -78,10 +88,7 @@ a:hover {
 
 #contact {
     margin-top: 17.5%;
-}
-
-#end {
-    margin-top: 0%;
+    margin-bottom: 0%;
 }
 
 /* navbar text */
@@ -101,10 +108,10 @@ a:hover {
 /* Graphics */
 .navsocials {
     position: relative;
-    width: 100px;
+    display: inline-block;
+    width: 20%;
     height: auto;
-    padding-left: 5%;
-    float: left;
+    padding-left: 10%;
 }
 
 .behancesamples {
@@ -166,7 +173,7 @@ a:hover {
 h1 {
   text-align: left;
   color: #2F89FC;
-  font-size: 500%;
+  font-size: 300%;
   line-height: .5em
 }
 
@@ -175,19 +182,19 @@ h1 {
 h2 {
   text-align: left;
   color: #060608;
-  font-size: 300%;
+  font-size: 200%;
 }
 
 p {
   text-align: left;
   color: #060608;
-  font-size: 250%;
+  font-size: 150%;
 }
 
 img.right {
-  vertical-align: top;
+  vertical-align: middle;
   float:right;
-  width: 800px;
+  width: 33%;
   height:auto;
   max-width:100%;
   max-height:100%;
@@ -195,26 +202,27 @@ img.right {
 
 /* Animations */
 .slider-wrapper {
-    font-size: 40px;
+    font-size: 150%;
     color: #060608;
     display: flex;
     align-items: left;
     justify-content: left;
 }
 .slider {
-    height: 50px;
-    padding-left: 15px;
-    padding-right: 15px;
+    height: 1.25em;
+    padding-left: 1.25em;
+    padding-right: 1.25em;
     overflow: hidden;
 }
 
 .slider div {
     color: white;
-    height: 50px;
-    margin-bottom: 50px;
-    padding: 2px 15px;
+    height: 1.25em;
+    margin-bottom: 1.25em;
+    padding: .125em 1.6em;
     text-align: center;
     box-sizing: border-box;
+    border-radius: .25em
 }
 
 .slider-student {
@@ -235,11 +243,11 @@ img.right {
 }
 
 @keyframes slide {
-    0% {margin-top: -300px;}
-    5% {margin-top: -200px;}
-    33.3% {margin-top: -200px;}
-    38.3% {margin-top: -100px;}
-    66.6% {margin-top: -100px;}
-    71.6% {margin-top: 0px;}
-    100% {margin-top: 0px;}
+    0% {margin-top: -7.5em;}
+    5% {margin-top: -5em;}
+    33.3% {margin-top: -5em;}
+    38.3% {margin-top: -2.5em;}
+    66.6% {margin-top: -2.5em;}
+    71.6% {margin-top: 0em;}
+    100% {margin-top: 0em;}
 }

@@ -26,3 +26,14 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+function openNav() {
+    document.getElementById("sideNavigation").style.width = "20%";
+    document.getElementById("navicon").style.height = "0%";
+}
+
+function closeNav() {
+    document.getElementById("sideNavigation").style.width = "0";
+    document.getElementById("navicon").style.height = "12%";
+}
+
