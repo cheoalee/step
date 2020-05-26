@@ -68,12 +68,41 @@
       <h1 class="sansserif">Fabrication & Digital Art</h1>
       <p class = "sansserif">Explorations from UC Berkeley's Creative Programming & Electronics Course.</a></p>
       <!-- The Lake -->
-      <iframe width="30%" height="53.3%" style="padding-top:12.5%" src="https://www.youtube.com/embed/JGRN9M8VVis" frameborder="0"allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe width="30%" height="100%" style="padding-top:20%" src="https://www.youtube.com/embed/JGRN9M8VVis" frameborder="0"allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <!-- Glitch -->
-      <iframe width="30%" height="53.3%" style="padding-top:12.5%; padding-left:3%" src="https://www.youtube.com/embed/Zlf8dKzgdEM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+      <iframe width="30%" height="100%" style="padding-top:20%; padding-left:3%" src="https://www.youtube.com/embed/Zlf8dKzgdEM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
       <!-- Synesthesia -->
-      <iframe width="30%" height="53.3%" style="padding-top:12.5%; padding-left:3%" src="https://www.youtube.com/embed/Lw3p1OH8sNo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe width="30%" height="100%" style="padding-top:20%; padding-left:3%" src="https://www.youtube.com/embed/Lw3p1OH8sNo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </section>
+
+    <!--Pet Simulator-->
+    <section id="petsim" class="content">
+      <h1 class="sansserif">Virtual Dog Simulator</h1>
+      <p class = "sansserif">Unfortunately, due to present circumstances, I can no longer walk nor pet (other people's) dogs. In the meantime, as consolation, I've created this virtual dog simulator. Click on Fido to see what Fido wants to do!</a></p>
+      <p class = "center">
+          <span id="pet" onclick="petAnimation()">👋</span>
+          <span id="feed" class="sim-option" onclick="spawnFood()">🥫</span>
+          <span id="drink" class="sim-option" onclick="spawnDrink()">🥤</span>
+          <span id="play" class="sim-option" onclick="spawnBall()">⚽</span>
+          <span id="walk" class="sim-option" onclick="showSky()">🐾</span>
+          <span id="sleep" class="sim-option" onclick="sleepingDog()">💤</span>
+      </p>
+      <div id="sky"></div>
+      <div id="dog-graphic" class="dog">
+          <div id="fido-object-container"></div>
+          <div class = "body" onclick="randomWant()"></div>
+          <div class = "leg1"></div>
+          <div class = "leg2"></div>
+          <div class = "leg3"></div>
+          <div class = "leg4"></div>
+          <div class = "tail" onclick="tailReaction()"></div>
+          <div class = "ear"></div>
+          <div class = "nose" onclick="noseReaction()"></div>
+          <div id = "eye"></div>
+          <div class = "tongue" onclick="tongueReaction()"></div>
+      </div>
+      <div id="want-container"></div>
+      </section>
 
     <!--Contact-->
     <section id="contact" class="content">

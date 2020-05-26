@@ -86,6 +86,10 @@ a:hover {
     margin-top: 45%;
 }
 
+#petsim {
+    margin-top: 22%;
+}
+
 #contact {
     margin-top: 17.5%;
     margin-bottom: 0%;
@@ -250,4 +254,166 @@ img.right {
     66.6% {margin-top: -2.5em;}
     71.6% {margin-top: 0em;}
     100% {margin-top: 0em;}
+}
+
+.center {
+    text-align: center;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+#want-container {
+  margin-top: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 150%;
+  color: #2F89FC;
+}
+
+#fido-object-container {
+    float:left;
+    margin-top: 20px;
+    font-size: 50px;
+}
+.dog {
+    float: right;
+    background-color: #fdb44e;
+    height: 75px;
+    width: 120px;
+    position: absolute;
+    margin-top: 5%;
+    margin-left: 35%;
+    border-radius: 0px 0px 0px 120px;
+}
+
+#sky {
+    background-color:skyblue;
+    height: 0;
+    width: 350px;
+    position: absolute;
+    margin-top: 0%;
+    margin-left: 34%;
+    border-radius: 20px;
+    z-index: -2;
+}
+
+.dog.wiggleJump {
+    animation: jump 1.5s 2;
+}
+
+@keyframes jump {
+    0% { transform: translate(0, 0%); }
+    50% { transform: translate(0, -100%); }
+    55% { transform: translate(0, -100%) rotate(5deg); }
+    60% { transform: translate(0, -100%) rotate(-5deg); }
+    65% { transform: translate(0, -100%) rotate(5deg); }
+    70% { transform: translate(0, -100%) rotate(-5deg); }
+    100% { transform: translate(0, 0%); }
+}
+
+.body {
+    background-color: #fdb44e;
+    height: 100px;
+    width: 180px;
+    position: relative;
+    top: 55px;
+    left: 70px;
+    border-radius: 0px 0px 0px 60px;
+}
+
+.leg1, .leg2, .leg3, .leg4 {
+    background-color: #fdb44e;
+    height: 50px;
+    width: 18px;
+    position: relative;
+}
+
+.leg1 {
+    left: 100px;
+    top: 48px;
+}
+
+.leg2 {
+    left: 130px;
+    bottom: 2px;
+}
+
+.leg3 {
+    left: 205px;
+    bottom: 50px;
+    background-color: rgba(151, 89, 2, 0.5);
+    z-index: -1;
+}
+
+.leg4 {
+    left: 232px;
+    bottom: 100px;
+}
+
+.tail {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 100px solid #fdb44e;
+    position: relative;
+    bottom: 320px;
+    left: 230px;
+    transform: rotate(30deg);
+    transform-origin: bottom;
+    animation: wag 1s infinite;
+}
+
+@keyframes wag {
+    50% {
+        transform: rotate(10deg);
+    }
+}
+
+.ear {
+    background-color: rgba(151, 89, 2, 0.8);
+    width: 45px;
+    height: 90px;
+    border-radius: 0px 0px 100px 100px;
+    position: relative;
+    left: 75px;
+    bottom: 400px;
+}
+
+.nose {
+    background-color: black;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    position: relative;
+    right: 2.5px;
+    bottom: 492px;
+}
+
+#eye {
+    background-color: black;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    position: relative;
+    bottom: 490px;
+    left: 50px;
+}
+
+.tongue {
+    background-color: #ff6347;
+    height: 20px;
+    width: 8px;
+    border-radius: 10px;
+    position: relative;
+    left: 23px;
+    bottom: 470px;
+    transform: rotate(45deg);
+    z-index: -1;
+    animation: move 1s infinite;
+}
+
+@keyframes move {
+    50% {
+        transform: rotate(45deg) translateY(2.5px);
+    }
 }

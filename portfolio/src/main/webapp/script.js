@@ -37,3 +37,84 @@ function closeNav() {
     document.getElementById("navicon").style.height = "12%";
 }
 
+function randomWant() {
+  const wants =
+      ['Fido is hungry.', 'Fido is thirsty.', 'Fido wants to go outside.', 'Fido is tired.', 'Fido wants to be pet.', 'Fido wants to play.'];
+
+  // Pick a random greeting.
+  const want = wants[Math.floor(Math.random() * wants.length)];
+
+  // Add it to the page.
+  const wantsContainer = document.getElementById('want-container');
+  wantsContainer.innerText = want;
+}
+
+function openEye() {
+    document.getElementById("eye").style.height = "10px";
+}
+
+function noHeldObject() {
+    const objContainer = document.getElementById('fido-object-container');
+    objContainer.innerText = "";
+}
+
+function petAnimation() {
+    openEye();
+    document.getElementById("dog-graphic").classList.add("wiggleJump");
+}
+
+function sleepingDog() {
+    noHeldObject();
+    hideSky();
+    document.getElementById("eye").style.height = "3px";
+}
+
+function spawnBall() {
+  // Add it to the page.
+  openEye();
+  const objContainer = document.getElementById('fido-object-container');
+  objContainer.innerText = "⚽";
+}
+
+function spawnDrink() {
+  // Add it to the page.
+  openEye();
+  const objContainer = document.getElementById('fido-object-container');
+  objContainer.innerText = "🧊";
+}
+
+function spawnFood() {
+  // Add it to the page.
+  openEye();
+  hideSky();
+  const objContainer = document.getElementById('fido-object-container');
+  objContainer.innerText = "🍏";
+}
+
+function showSky() {
+    document.getElementById('sky').style.height = "350px";
+}
+
+function hideSky() {
+    document.getElementById('sky').style.height = "0px";
+}
+
+function tailReaction() {
+openEye();
+  const wantsContainer = document.getElementById('want-container');
+  wantsContainer.innerText = "Fido does not like it when you grab Fido's tail 😔";
+}
+
+function noseReaction() {
+  openEye();
+  noHeldObject();
+  const wantsContainer = document.getElementById('want-container');
+  wantsContainer.innerText = "Fido sneezed.";
+}
+
+function tongueReaction() {
+  openEye();
+  noHeldObject();
+  const wantsContainer = document.getElementById('want-container');
+  wantsContainer.innerText = "Fido licked your hand.";
+}
