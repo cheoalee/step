@@ -53,7 +53,7 @@ img.right {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* All page headers */
+/* h1 used for all page headers. */
 h1 {
   color: #2F89FC;
   font-size: 300%;
@@ -88,7 +88,7 @@ p {
     padding-left: 10%;
 }
 
-/* Where socials are located */
+/* Where socials are located. */
 .navbottom {
     bottom: 10%;
     display: flex;
@@ -97,7 +97,7 @@ p {
     position: fixed;
 }
 
-/* Socials graphics */
+/* Socials graphics (LinkedIn, Behance, Github). */
 .navsocials {
     display: inline-block;
     height: auto;
@@ -110,7 +110,7 @@ p {
     padding-top: 50%;
 }
 
-/* Navbar (expanded) */
+/* Navigation bar, icon, animation, and components */
 .sidenav {
   background-color: #2F89FC;
   height: 100%;
@@ -158,7 +158,7 @@ p {
 
 /* ABOUT */
 
-/* Horizontally center content on the page */
+/* Horizontally center section content on the page. */
 .main {
   bottom: 45%; /* not 50% (exactly centered) due to space taken up by apl logo at top */
   position: absolute;

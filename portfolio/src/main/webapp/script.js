@@ -12,21 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-
 function openNav() {
     document.getElementById("sideNavigation").style.width = "20%";
     document.getElementById("navicon").style.height = "0%";
@@ -37,11 +22,14 @@ function closeNav() {
     document.getElementById("navicon").style.height = "12%";
 }
 
+/**
+ * Adds a random want to the page.
+ */
 function randomWant() {
   const wants =
       ['Fido is hungry.', 'Fido is thirsty.', 'Fido wants to go outside.', 'Fido is tired.', 'Fido wants to be pet.', 'Fido wants to play.'];
 
-  // Pick a random greeting.
+  // Pick a random want.
   const want = wants[Math.floor(Math.random() * wants.length)];
 
   // Add it to the page.
@@ -58,6 +46,9 @@ function noHeldObject() {
     objContainer.innerText = "";
 }
 
+/**
+ * Activate wiggle jump animation in response to "pet" option click.
+ */
 function petAnimation() {
     openEye();
     document.getElementById("dog-graphic").classList.add("wiggleJump");
@@ -70,21 +61,18 @@ function sleepingDog() {
 }
 
 function spawnBall() {
-  // Add it to the page.
   openEye();
   const objContainer = document.getElementById('fido-object-container');
   objContainer.innerText = "⚽";
 }
 
 function spawnDrink() {
-  // Add it to the page.
   openEye();
   const objContainer = document.getElementById('fido-object-container');
   objContainer.innerText = "🧊";
 }
 
 function spawnFood() {
-  // Add it to the page.
   openEye();
   hideSky();
   const objContainer = document.getElementById('fido-object-container');
