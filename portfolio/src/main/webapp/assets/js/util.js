@@ -2,7 +2,7 @@
 function Util () {};
 
 /* 
-	class manipulation functions
+	Class manipulation functions.
 */
 Util.hasClass = function(el, className) {
 	if (el.classList) return el.classList.contains(className);
@@ -50,7 +50,7 @@ Util.getChildrenByClassName = function(el, className) {
 };
 
 /* 
-	Animate height of an element
+	Animate height of an element.
 */
 Util.setHeight = function(start, to, element, duration, cb) {
 	var change = to - start,
@@ -74,7 +74,7 @@ Util.setHeight = function(start, to, element, duration, cb) {
 };
 
 /* 
-	Smooth Scroll
+	Smooth Scroll.
 */
 
 Util.scrollTo = function(final, duration, cb) {
@@ -98,7 +98,7 @@ Util.scrollTo = function(final, duration, cb) {
 };
 
 /* 
-  Focus utility classes
+  Focus utility classes.
 */
 
 //Move focus to an element
@@ -112,7 +112,7 @@ Util.moveFocus = function (element) {
 };
 
 /* 
-  Misc
+  Misc.
 */
 
 Util.getIndexInArray = function(array, el) {
@@ -148,7 +148,7 @@ if (!Element.prototype.closest) {
 	};
 }
 
-//Custom Event() constructor
+//Custom Event() constructor.
 if ( typeof window.CustomEvent !== "function" ) {
 
   function CustomEvent ( event, params ) {
@@ -164,7 +164,7 @@ if ( typeof window.CustomEvent !== "function" ) {
 }
 
 /* 
-	Animation curves
+	Animation curves.
 */
 Math.easeInOutQuad = function (t, b, c, d) {
 	t /= d/2;

@@ -16,9 +16,9 @@
 		this.eventsMinDistance = 60; // min distance between two consecutive events (in px)
 		this.eventsMaxDistance = 200; // max distance between two consecutive events (in px)
 		this.translate = 0; // this will be used to store the translate value of this.line
-		this.lineLength = 0; //total length of this.line
+		this.lineLength = 0; //total length of this line
 		
-		// store index of selected and previous selected dates
+		// Store index of selected and previous selected dates.
 		this.oldDateIndex = Util.getIndexInArray(this.date, this.selectedDate);
 		this.newDateIndex = this.oldDateIndex;
 
@@ -161,7 +161,7 @@
 		resetTimelinePosition(timeline, direction);
 	};
 	
-	function resetTimelinePosition(timeline, direction) { //translate timeline according to new selected event position
+	function resetTimelinePosition(timeline, direction) { // translate timeline according to new selected event position
 		var eventStyle = window.getComputedStyle(timeline.selectedDate, null),
 			eventLeft = Number(eventStyle.getPropertyValue('left').replace('px', '')),
 			timelineWidth = timeline.datesContainer.offsetWidth;
@@ -178,13 +178,13 @@
 			var singleDate = timeline.date[i].getAttribute('data-date'),
 				dateComp = singleDate.split('T');
 			
-			if( dateComp.length > 1 ) { //both DD/MM/YEAR and time are provided
+			if( dateComp.length > 1 ) { // both DD/MM/YEAR and time are provided
 				var dayComp = dateComp[0].split('/'),
 					timeComp = dateComp[1].split(':');
-			} else if( dateComp[0].indexOf(':') >=0 ) { //only time is provide
+			} else if( dateComp[0].indexOf(':') >=0 ) { // only time is provide
 				var dayComp = ["2000", "0", "0"],
 					timeComp = dateComp[0].split(':');
-			} else { //only DD/MM/YEAR
+			} else { // only DD/MM/YEAR
 				var dayComp = dateComp[0].split('/'),
 					timeComp = ["0", "0"];
 			}
