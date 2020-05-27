@@ -92,6 +92,7 @@ function spawnFood() {
 }
 
 function showSky() {
+    openEye();
     document.getElementById('sky').style.height = "350px";
 }
 
