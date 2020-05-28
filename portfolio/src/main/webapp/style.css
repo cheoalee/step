@@ -441,3 +441,8 @@ p {
     height: auto;
     width: 100%;
 }
+
+/* Container for Week 3 Step 2 Task (Fetch) */
+#quote-container {
+  margin-top: 20px;
+}
