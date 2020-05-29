@@ -1,18 +1,113 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <meta charset="UTF-8" name="viewport" content="width=device-width; initial-scale=1.0">
+    <title>Angela's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
+
   <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+
+    <!--Navigation-->
+    <img id ="navicon" src="images/hamburger_navicon.svg" onclick="openNav()"/>
+
+    <div id="sideNavigation" class="sidenav">
+        <a href="javascript:void(0)" class="closeButton" onclick="closeNav()">&times;</a>
+        <p class="sansserif navtext"><a href="#about">About</a></p>
+        <p class="sansserif navtext"><a href="#experience">Experience</a></p>
+        <p class="sansserif navtext"><a href="#portfolio">Portfolio</a></p>
+        <p class="sansserif navtext"><a href="#contact">Contact</a></p>
+        <a href="https://linkedin.com/in/angelapl"><img class="navbottom navsocials social-padding" src="images/linkedin_white.png" alt="LinkedIn"/></a>
+        <a href="https://www.behance.net/angelalee5"><img class="navbottom navsocials" src="images/behance_white.png" alt="Behance"></a>
+        <a href="https://github.com/cheoalee"><img class="navbottom navsocials" src="images/github_white_updated.png" alt="GitHub"/></a>
     </div>
+
+    <!--Logo-->
+    <div class="header">
+         <h2 id="logo" class="sansserif">apl</h2>
+    </div>
+
+    <!--About-->
+    <section class="content main" id="about">
+      <img class="right" src="images/line_portrait.png" alt="Line self-portrait"/>
+      <h1 class="sansserif">Hello there! I'm Angela.</h1>
+      <div class="slider-wrapper sansserif">
+          I am a 
+          <div class="slider">
+              <div class="slider-student sansserif">art-enthusiast</div>
+              <div class="slider-coder sansserif">coder</div>
+              <div class="slider-creator sansserif">creator</div>
+          </div>
+          at UC Berkeley studing computer science.
+     </div>
+      <p class = "sansserif">Currently, I'm working as a <span style="color:#2F89FC;">STEP intern at Google. </span> I'm passionate about accessibility, graphic design, hiking, and dog-petting.</p>
+    </section>
+
+    <!--Experience-->
+    <section id="experience" class="content">
+      <h1 class="sansserif">Experience</h1>
+      <p class = "sansserif"><a href="files/Lee_Angela.pdf">Resume</a></p>
+      <!--Timeline below adapted from CodyHouse. License: https://codyhouse.co/mit-->
+      <object data="horiz-timeline.html" id="timeline"></object>
+    </section>
+
+    <!--Portfolio-->
+    <section id="portfolio" class="content">
+      <h1 class="sansserif">Portfolio</h1>
+      <p class="sansserif">Here are a few of my favorites. You can find the rest on <a href="https://www.behance.net/angelalee5">my Behance</a>!</p>
+      <img class="behancesamples" src="images/plant_behance.jpg" alt="Drawing of a plant"/>
+      <img class="behancesamples art-padding" src="images/flowers_behance.png" alt="Drawing of flowers"/>
+    </section>
+
+    <!--Fabrication-->
+    <section id="fabrication" class="content">
+      <h1 class="sansserif">Fabrication & Digital Art</h1>
+      <p class = "sansserif">Explorations from UC Berkeley's Creative Programming & Electronics Course.</a></p>
+      <!-- The Lake -->
+      <iframe width="30%" height="100%" class="fabrication-video video-padding" src="https://www.youtube.com/embed/JGRN9M8VVis" frameborder="0"allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <!-- Glitch -->
+      <iframe width="30%" height="100%" class="fabrication-video video-padding" src="https://www.youtube.com/embed/Zlf8dKzgdEM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+      <!-- Synesthesia -->
+      <iframe width="30%" height="100%" class="fabrication-video video-padding" src="https://www.youtube.com/embed/Lw3p1OH8sNo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </section>
+
+    <!--Pet Simulator-->
+    <section id="pet-sim" class="content">
+      <h1 class="sansserif">Virtual Dog Simulator</h1>
+      <p class = "sansserif">Unfortunately, due to present circumstances, I can no longer walk nor pet (other people's) dogs. In the meantime, as consolation, I've created this virtual dog simulator. Click on Fido to see what Fido wants to do! <a href="https://www.youtube.com/watch?v=gtl2ufc3_-c" class="sansserif">Alternatively, find out how to create a dog of your own!</a></p>
+      <p class = "center">
+          <span id="pet" onclick="petAnimation()">👋</span>
+          <span id="feed" class="sim-option" onclick="spawnFood()">🥫</span>
+          <span id="drink" class="sim-option" onclick="spawnDrink()">🥤</span>
+          <span id="play" class="sim-option" onclick="spawnBall()">⚽</span>
+          <span id="walk" class="sim-option" onclick="showSky()">🐾</span>
+          <span id="sleep" class="sim-option" onclick="sleepingDog()">💤</span>
+      </p>
+      <div id="sky"></div>
+      <div id="dog-graphic" class="dog">
+          <div id="fido-object-container"></div>
+          <div class = "body" onclick="randomWant()"></div>
+          <div class = "leg1"></div>
+          <div class = "leg2"></div>
+          <div class = "leg3"></div>
+          <div class = "leg4"></div>
+          <div class = "tail" onclick="tailReaction()"></div>
+          <div class = "ear"></div>
+          <div class = "nose" onclick="noseReaction()"></div>
+          <div id = "eye"></div>
+          <div class = "tongue" onclick="tongueReaction()"></div>
+      </div>
+      <div id="want-container"></div>
+      </section>
+
+    <!--Contact-->
+    <section id="contact" class="content">
+      <h1 class="sansserif">Let's Connect!</h1>
+      <p class = "sansserif">Want to discuss the latest in tech? Share recipes? Enthuse about dogs? Recommend new TV shows? Introduce me to a new hobby? Grab coffee? If you said yes to any of the above or have a question of your own...</p>
+        <form><button formaction="mailto:angela.pl@berkeley.edu" class="button">Contact me</button></form>
+    </section>
+    <img class="endillustration" src="images/end_illustration.svg" alt=""/>
+
   </body>
 </html>

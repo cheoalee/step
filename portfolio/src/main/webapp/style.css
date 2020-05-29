@@ -1,9 +1,443 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+/* UNIVERSAL */
+
+/* Links */
+a:link {
+  color: #060608;
 }
 
-#greeting-container {
+a:visited {
+  color: lightgrey;
+}
+
+a:hover {
+  color: #2f89fc;
+}
+
+.button {
+  background-color: #2f89fc;
+  border: none;
+  border-radius: 1.5em;
+  color: white;
+  display: inline-block;
+  font-size: 150%;
+  margin-bottom: 0%;
+  padding: .75%;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Formatting */
+.content {
+  margin-left: 5%;
+  margin-right: auto;
+  width: 80%;
+}
+
+.center {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+img.right {
+  float:right;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
+  vertical-align: middle;
+  width: 33%;
+}
+
+/* Fonts */
+.sansserif {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* h1 used for all page headers. */
+h1 {
+  color: #2f89fc;
+  font-size: 300%;
+  line-height: .5em;
+  text-align: left;
+}
+
+h2 {
+  color: #060608;
+  font-size: 200%;
+  text-align: left;
+}
+
+p {
+  color: #060608;
+  font-size: 150%;
+  text-align: left;
+}
+
+/* NAVIGATION */
+
+#navicon {
+    position: fixed;
+    z-index: 999;
+    height: 12%;
+    left: 80%;   /* width of .content */
+    top: 0;
+}
+
+.navtext {
+    color: white;
+    padding-left: 10%;
+}
+
+/* Where socials are located. */
+.navbottom {
+    bottom: 10%;
+    display: flex;
+    justify-content: center;
+    padding-left: 1.5%;
+    position: fixed;
+}
+
+/* Socials graphics (LinkedIn, Behance, Github). */
+.navsocials {
+    display: inline-block;
+    height: auto;
+    padding-left: 10%;
+    position: relative;
+    width: 20%;
+}
+
+.social-padding {
+    padding-top: 50%;
+}
+
+/* Navigation bar, icon, animation, and components */
+.sidenav {
+  background-color: #2f89fc;
+  height: 100%;
+  left: 80%;
+  overflow-x: hidden;
+  padding-top: 60px;
+  position: fixed;
+  top: 0;
+  transition: .5s;
+  width: 0;
+  z-index: 1;
+}
+
+.sidenav a {
+  color: #ffffff;
+  display: block;
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+}
+
+.sidenav a:hover {
+  color: lightgrey;
+}
+
+.sidenav .closeButton {
+  font-size: 36px;
+  margin-left: 50px;
+  position: absolute;
+  right: 25px;
+  top: 0;
+}
+
+/* LOGO */
+
+.header {
+  background: white;
+  margin-left: 5%;
+  text-align: left;
+}
+
+#logo {
+    color: #060608;
+    margin-top:3%;
+}
+
+/* ABOUT */
+
+/* Horizontally center section content on the page. */
+.main {
+  bottom: 45%; /* not 50% (exactly centered) due to space taken up by apl logo at top */
+  position: absolute;
+  transform: translate(0%,50%);
+}
+
+.slider-wrapper {
+  align-items: left;
+  color: #060608;
+  display: flex;
+  font-size: 150%;
+  justify-content: left;
+}
+.slider {
+  height: 1.25em;
+  overflow: hidden;
+  padding-left: 1.25em;
+  padding-right: 1.25em;
+}
+
+.slider div {
+    border-radius: .25em;
+    box-sizing: border-box;
+    color: white;
+    height: 1.25em;
+    margin-bottom: 1.25em;
+    padding: .125em 1.6em;
+    text-align: center;
+}
+
+.slider-student {
+    animation: slide 5s linear infinite;
+    background:#2f89fc;
+}
+
+.slider-coder {
+    background:#9BB1FF;
+}
+
+.slider-creator {
+    background:#C2AFF0;
+}
+
+.slider-artlover {
+    background:#5465FF;
+}
+
+@keyframes slide {
+    0% {margin-top: -7.5em;}
+    5% {margin-top: -5em;}
+    33.3% {margin-top: -5em;}
+    38.3% {margin-top: -2.5em;}
+    66.6% {margin-top: -2.5em;}
+    71.6% {margin-top: 0em;}
+    100% {margin-top: 0em;}
+}
+
+/* EXPERIENCE */
+
+#experience {
+    margin-top: 50%;
+}
+
+#timeline {
+  height:75vh;
+  width:100%;
+}
+
+/* PORTFOLIO */
+
+#portfolio {
+  margin-top: 2%;
+}
+
+.behancesamples {
+    float: left;
+    height: auto;
+    margin-top: 3%;
+    position: relative;
+    width: 45%;
+}
+
+.art-padding {
+  padding-left: 5%;
+}
+
+/* FABRICATION */
+
+#fabrication {
+    margin-top: 45%;
+}
+
+.fabrication-video {
+  padding-top: 17.5%;
+}
+
+.videosamples {
+    float: left;
+    height: auto;
+    margin-top: 3%;
+    position: relative;
+    width: 30%;
+}
+
+.video-padding {
+  padding-left: 3%;
+}
+
+/* PET SIM */
+
+#pet-sim {
+    margin-top: 20%;
+}
+
+.dog {
+  background-color: #fdb44e;
+  border-radius: 0px 0px 0px 120px;
+  float: right;
+  height: 75px;
+  margin-top: 5%;
+  margin-left: 35%;
+  position: absolute;
+  width: 120px;
+}
+
+#want-container {
   margin-top: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 150%;
+  color: #2f89fc;
+}
+
+#fido-object-container {
+  float:left;
+  font-size: 50px;
+  margin-top: 20px;
+}
+
+#sky {
+  background-color: skyblue;
+  border-radius: 20px;
+  height: 0;
+  margin-left: 34%;
+  margin-top: 0%;
+  position: absolute;
+  width: 350px;
+  z-index: -5;
+}
+
+.dog.wiggleJump {
+  animation: jump 1.5s 2;
+}
+
+@keyframes jump {
+    0% { transform: translate(0, 0%); }
+    50% { transform: translate(0, -100%); }
+    55% { transform: translate(0, -100%) rotate(5deg); }
+    60% { transform: translate(0, -100%) rotate(-5deg); }
+    65% { transform: translate(0, -100%) rotate(5deg); }
+    70% { transform: translate(0, -100%) rotate(-5deg); }
+    100% { transform: translate(0, 0%); }
+}
+
+.body {
+  background-color: #fdb44e;
+  border-radius: 0px 0px 0px 60px;
+  height: 100px;
+  left: 70px;
+  position: relative;
+  top: 55px;
+  width: 180px;
+}
+
+.leg1, .leg2, .leg3, .leg4 {
+  background-color: #fdb44e;
+  height: 50px;
+  position: relative;
+  width: 18px;
+}
+
+.leg1 {
+  left: 100px;
+  top: 48px;
+}
+
+.leg2 {
+  bottom: 2px;
+  left: 130px;
+}
+
+.leg3 {
+  background-color: rgba(151, 89, 2, .5);
+  bottom: 50px;
+  left: 205px;
+  z-index: -1;
+}
+
+.leg4 {
+  bottom: 100px;
+  left: 232px;
+}
+
+.tail {
+  animation: wag 1s infinite;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 100px solid #fdb44e;
+  bottom: 320px;
+  height: 0;
+  left: 230px;
+  position: relative;
+  transform: rotate(30deg);
+  transform-origin: bottom;
+  width: 0;
+}
+
+@keyframes wag {
+    50% {
+        transform: rotate(10deg);
+    }
+}
+
+.ear {
+  background-color: rgba(151, 89, 2, .8);
+  border-radius: 0px 0px 100px 100px;
+  bottom: 400px;
+  height: 90px;
+  left: 75px;
+  position: relative;
+  width: 45px;
+}
+
+.nose {
+  background-color: black;
+  border-radius: 50%;
+  bottom: 492px;
+  height: 15px;
+  position: relative;
+  right: 2.5px;
+  width: 15px;
+}
+
+#eye {
+  background-color: black;
+  border-radius: 50%;
+  bottom: 490px;
+  height: 10px;
+  left: 50px;
+  position: relative;
+  width: 10px;
+}
+
+.tongue {
+  animation: move 1s infinite;
+  background-color: #ff6347;
+  border-radius: 10px;
+  bottom: 470px;
+  height: 20px;
+  left: 23px;
+  position: relative;
+  transform: rotate(45deg);
+  width: 8px;
+  z-index: -1;
+}
+
+@keyframes move {
+    50% {
+        transform: rotate(45deg) translateY(2.5px);
+    }
+}
+
+/* CONTACT */
+
+#contact {
+    margin-bottom: 0%;
+    margin-top: 25%;
+}
+
+.endillustration {
+    height: auto;
+    width: 100%;
 }

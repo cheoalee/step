@@ -12,17 +12,108 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function openNav() {
+  document.getElementById("sideNavigation").style.width = "20%";
+  document.getElementById("navicon").style.height = "0%";
+}
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+function closeNav() {
+  document.getElementById("sideNavigation").style.width = "0";
+  document.getElementById("navicon").style.height = "12%";
+}
+
+/**
+ * Adds a random want to the page.
+ */
+function randomWant() {
+  const wants =
+      ['Fido is hungry.', 'Fido is thirsty.', 'Fido wants to go outside.',
+      'Fido is tired.', 'Fido wants to be pet.', 'Fido wants to play.'];
+
+  // Pick a random want.
+  const want = wants[Math.floor(Math.random() * wants.length)];
 
   // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  const wantsContainer = document.getElementById('want-container');
+  wantsContainer.innerText = want;
+}
+
+/**
+ * Sets dog animation's eye to be open.
+ */
+function openEye() {
+  document.getElementById("eye").style.height = "10px";
+}
+
+/**
+ * Removes objects from dog animation's "mouth".
+ */
+function noHeldObject() {
+  const objContainer = document.getElementById('fido-object-container');
+  objContainer.innerText = "";
+}
+
+/**
+ * Activate wiggle jump animation in response to "pet" option click.
+ */
+function petAnimation() {
+  openEye();
+  document.getElementById("dog-graphic").classList.add("wiggleJump");
+}
+
+/**
+ * Sets dog animation's eye to be closed.
+ */
+function sleepingDog() {
+  noHeldObject();
+  hideSky();
+  document.getElementById("eye").style.height = "3px";
+}
+
+function spawnBall() {
+  openEye();
+  const objContainer = document.getElementById('fido-object-container');
+  objContainer.innerText = "⚽";
+}
+
+function spawnDrink() {
+  openEye();
+  const objContainer = document.getElementById('fido-object-container');
+  objContainer.innerText = "🧊";
+}
+
+function spawnFood() {
+  openEye();
+  hideSky();
+  const objContainer = document.getElementById('fido-object-container');
+  objContainer.innerText = "🍏";
+}
+
+function showSky() {
+  openEye();
+  document.getElementById('sky').style.height = "350px";
+}
+
+function hideSky() {
+  document.getElementById('sky').style.height = "0px";
+}
+
+function tailReaction() {
+openEye();
+  const wantsContainer = document.getElementById('want-container');
+  wantsContainer.innerText = "Fido does not like it when you grab Fido's tail 😔";
+}
+
+function noseReaction() {
+  openEye();
+  noHeldObject();
+  const wantsContainer = document.getElementById('want-container');
+  wantsContainer.innerText = "Fido sneezed.";
+}
+
+function tongueReaction() {
+  openEye();
+  noHeldObject();
+  const wantsContainer = document.getElementById('want-container');
+  wantsContainer.innerText = "Fido licked your hand.";
 }
