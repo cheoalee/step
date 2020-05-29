@@ -16,6 +16,7 @@ package com.google.sps.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,11 +25,32 @@ import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.sps.data.Task;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+
+/** A comment from a page visitor. */
+  private class Comment {
+    long id;
+    String comment;
+    long timestamp;
+
+   /**
+    * @param entityId Id of the entity, used for Datastore storage.
+    * @param userComment The content of the comment left by a visitor.
+    * @param submissionTime The time at which the comment was submitted.
+    */
+    private Comment(long entityId, String userComment, long submissionTime) {
+        id = entityId;
+        comment = userComment;
+        timestamp = submissionTime;
+    }
+  }   
+
   /**
   * Post to page according to user input.
   * @param request
@@ -46,7 +68,7 @@ public class DataServlet extends HttpServlet {
       comment = comment.toUpperCase();
     }
 
-    // Store comment as entity in Datastore
+    // Store comment as entity in Datastore.
     Entity taskEntity = new Entity("Task");
     taskEntity.setProperty("comment", comment);
     taskEntity.setProperty("timestamp", timestamp);
@@ -70,28 +92,28 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    List<Task> tasks = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
-      String comment = (String) entity.getProperty("comment");
+      String userComment = (String) entity.getProperty("comment");
       long timestamp = (long) entity.getProperty("timestamp");
 
-      Task task = new Task(id, comment, timestamp);
-      tasks.add(task);
+      Comment comment = new Comment(id, userComment, timestamp);
+      comments.add(comment);
     }
 
     Gson gson = new Gson();
 
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(tasks));
+    response.getWriter().println(gson.toJson(comments));
   }
 
   /**
    * @param request
    * @param name
    * @param defaultValue
-   * @return the request parameter, or the default value if the parameter
-   *         was not specified by the client
+   * @return The request parameter, or the default value if the parameter
+   *         was not specified by the client.
    */
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
@@ -104,7 +126,7 @@ public class DataServlet extends HttpServlet {
   /**
    * Converts an ArrayList of Strings into a JSON string using the Gson library. Note: First added
    * the Gson library dependency to pom.xml.
-   * @param serverStats Stats from the server.
+   * @param messages Stats from the server.
    * @return Message as a JSON.
    */
   private String convertToJsonUsingGson(ArrayList<String> messages) {
