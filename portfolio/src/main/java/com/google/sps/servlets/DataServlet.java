@@ -25,8 +25,6 @@ import java.util.ArrayList;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  ArrayList<String> comments = new ArrayList<String>();
-
   /**
   * Post to page according to user input.
   * @param request
@@ -35,18 +33,21 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String text = getParameter(request, "text-input", "");
+    String comment = getParameter(request, "text-input", "");
     boolean upperCase = Boolean.parseBoolean(getParameter(request, "upper-case", "false"));
 
-    // Convert the text to upper case.
+    // Convert the comment to upper case.
     if (upperCase) {
-      text = text.toUpperCase();
+      comment = comment.toUpperCase();
     }
 
-    comments.add(text);
-    // Respond with the result.
-    response.setContentType("text/html;");
-    response.getWriter().println(comments);
+    // Store comment as entity in Datastore
+    Entity taskEntity = new Entity("Task");
+    taskEntity.setProperty("comment", comment);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(taskEntity);
+
     // Redirect back to the HTML page on which the comment was entered.
     response.sendRedirect("/data.html");
   }
