@@ -25,27 +25,42 @@ import java.util.ArrayList;
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  // Messages to be converted to JSON
-  ArrayList<String> messages = new ArrayList<String>();
+  ArrayList<String> comments = new ArrayList<String>();
 
   /**
-  * Request something, then return it.
-  * @param request Request something.
-  * @param response Response received from request.
+  * Post to page according to user input.
+  * @param request
+  * @param response
   */
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Populate messages
-    messages.add("Hello!");
-    messages.add("Hi!");
-    messages.add("Hey!");
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // Get the input from the form.
+    String text = getParameter(request, "text-input", "");
+    boolean upperCase = Boolean.parseBoolean(getParameter(request, "upper-case", "false"));
 
-    // Convert messages to JSON
-    String json = convertToJsonUsingGson(messages);
+    // Convert the text to upper case.
+    if (upperCase) {
+      text = text.toUpperCase();
+    }
 
-    // Send the JSON as the response
-    response.setContentType("application/json;");
-    response.getWriter().println(json);
+    comments.add(text);
+    // Respond with the result.
+    response.setContentType("text/html;");
+    response.getWriter().println(comments);
+    // Redirect back to the HTML page on which the comment was entered.
+    response.sendRedirect("/data.html");
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter
+   *         was not specified by the client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 
   /**
