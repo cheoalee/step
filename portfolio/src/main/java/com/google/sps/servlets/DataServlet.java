@@ -52,6 +52,9 @@ public class DataServlet extends HttpServlet {
   }
 
   /**
+   * @param request
+   * @param name
+   * @param defaultValue
    * @return the request parameter, or the default value if the parameter
    *         was not specified by the client
    */
