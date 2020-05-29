@@ -13,13 +13,13 @@
 // limitations under the License.
 
 function openNav() {
-    document.getElementById("sideNavigation").style.width = "20%";
-    document.getElementById("navicon").style.height = "0%";
+  document.getElementById("sideNavigation").style.width = "20%";
+  document.getElementById("navicon").style.height = "0%";
 }
 
 function closeNav() {
-    document.getElementById("sideNavigation").style.width = "0";
-    document.getElementById("navicon").style.height = "12%";
+  document.getElementById("sideNavigation").style.width = "0";
+  document.getElementById("navicon").style.height = "12%";
 }
 
 /**
@@ -27,7 +27,8 @@ function closeNav() {
  */
 function randomWant() {
   const wants =
-      ['Fido is hungry.', 'Fido is thirsty.', 'Fido wants to go outside.', 'Fido is tired.', 'Fido wants to be pet.', 'Fido wants to play.'];
+      ['Fido is hungry.', 'Fido is thirsty.', 'Fido wants to go outside.',
+      'Fido is tired.', 'Fido wants to be pet.', 'Fido wants to play.'];
 
   // Pick a random want.
   const want = wants[Math.floor(Math.random() * wants.length)];
@@ -37,27 +38,36 @@ function randomWant() {
   wantsContainer.innerText = want;
 }
 
+/**
+ * Sets dog animation's eye to be open.
+ */
 function openEye() {
-    document.getElementById("eye").style.height = "10px";
+  document.getElementById("eye").style.height = "10px";
 }
 
+/**
+ * Removes objects from dog animation's "mouth".
+ */
 function noHeldObject() {
-    const objContainer = document.getElementById('fido-object-container');
-    objContainer.innerText = "";
+  const objContainer = document.getElementById('fido-object-container');
+  objContainer.innerText = "";
 }
 
 /**
  * Activate wiggle jump animation in response to "pet" option click.
  */
 function petAnimation() {
-    openEye();
-    document.getElementById("dog-graphic").classList.add("wiggleJump");
+  openEye();
+  document.getElementById("dog-graphic").classList.add("wiggleJump");
 }
 
+/**
+ * Sets dog animation's eye to be closed.
+ */
 function sleepingDog() {
-    noHeldObject();
-    hideSky();
-    document.getElementById("eye").style.height = "3px";
+  noHeldObject();
+  hideSky();
+  document.getElementById("eye").style.height = "3px";
 }
 
 function spawnBall() {
@@ -80,12 +90,12 @@ function spawnFood() {
 }
 
 function showSky() {
-    openEye();
-    document.getElementById('sky').style.height = "350px";
+  openEye();
+  document.getElementById('sky').style.height = "350px";
 }
 
 function hideSky() {
-    document.getElementById('sky').style.height = "0px";
+  document.getElementById('sky').style.height = "0px";
 }
 
 function tailReaction() {
