@@ -65,8 +65,8 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
     visitorChoice = getVisitorChoice(request);
-    String name = getParameter(request, "visitor-name", "");
-    String comment = getParameter(request, "visitor-comment", "");
+    String name = secureReformat(getParameter(request, "visitor-name", ""));
+    String comment = secureReformat(getParameter(request, "visitor-comment", ""));
     long timestamp = System.currentTimeMillis();
     boolean upperCase = Boolean.parseBoolean(getParameter(request, "upper-case", "false"));
 
@@ -120,6 +120,15 @@ public class DataServlet extends HttpServlet {
 
     response.setContentType("application/json;");
     response.getWriter().println(convertToJsonUsingGson(comments));
+  }
+
+ /**
+  * Reformat comments to prevent HTML and script injections.
+  * @param input Comment to reformat.
+  * @return Comment with HTML tags replaced.
+  */
+  private String secureReformat(String input) {
+    return input.replace("<", "&lt;").replace(">", "&gt;");
   }
 
   /**
