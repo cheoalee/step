@@ -11,11 +11,11 @@
     <h1 class="sansserif comment-page title">Comment Submission</h1>
 
     <form action="/data" method="POST">
-      <label for="name-input" class="sansserif comment-page section-sep">Name:</label>
-      <input type="visitor-name" id="username" name="name-input" required>
+      <label for="visitor-name" class="sansserif comment-page section-sep">Name:</label>
+      <input type="text" id="username" name="visitor-name" class="sansserif comment-page" required>
 
-      <p class="sansserif comment-page section-sep">Comment:</p>
-      <textarea name="visitor-comment" class="sansserif">Enter your comment here...</textarea>
+      <label for="visitor-name" class="sansserif comment-page section-sep">Comment:</label>
+      <textarea name="visitor-comment" class="sansserif comment-page" required></textarea>
 
       <p class="sansserif comment-page">Add some spice:</p>
       <input type="checkbox" name="upper-case" class="sansserif" value="true"><label for="checkbox">Upper-case</label>
