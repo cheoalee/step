@@ -153,3 +153,12 @@ function createListElement(text) {
   liElement.innerText = text;
   return liElement;
 }
+
+ /**
+  * Fetch comments from Datastore after clearing Datastore;
+  * essentially, clear the Datastore.
+  */
+async function clearCommentsUsingAsyncAwait() {
+  const response = await fetch('/delete-data', {method: 'POST'});
+  document.getElementById('messages-container').innerText = "Successfully deleted all Datastore comments.";
+}

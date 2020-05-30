@@ -441,3 +441,28 @@ p {
     height: auto;
     width: 100%;
 }
+
+/* COMMENT PAGE (data.html) */
+.comment-page {
+    color: #060608;
+    font-size: 100%;
+}
+
+.title {
+    color: #2f89fc;
+    font-size: 150%;
+}
+
+.section-sep {
+    margin-top: 1em;
+}
+
+label {
+    color: #060608;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+label.section-sep {
+    display: block;
+    margin-top: 1em;
+}
