@@ -39,6 +39,7 @@ public class DataServlet extends HttpServlet {
 /** A comment from a page visitor. */
   private class Comment {
     long id;
+    String name;
     String comment;
     long timestamp;
 
@@ -47,8 +48,9 @@ public class DataServlet extends HttpServlet {
     * @param userComment The content of the comment left by a visitor.
     * @param submissionTime The time at which the comment was submitted.
     */
-    private Comment(long entityId, String userComment, long submissionTime) {
+    private Comment(long entityId, String userName, String userComment, long submissionTime) {
         id = entityId;
+        name = userName;
         comment = userComment;
         timestamp = submissionTime;
     }
@@ -63,7 +65,8 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
     visitorChoice = getVisitorChoice(request);
-    String comment = getParameter(request, "text-input", "");
+    String name = getParameter(request, "visitor-name", "");
+    String comment = getParameter(request, "visitor-comment", "");
     long timestamp = System.currentTimeMillis();
     boolean upperCase = Boolean.parseBoolean(getParameter(request, "upper-case", "false"));
 
@@ -74,6 +77,7 @@ public class DataServlet extends HttpServlet {
 
     // Store comment as entity in Datastore.
     Entity taskEntity = new Entity("Task");
+    taskEntity.setProperty("name", name);
     taskEntity.setProperty("comment", comment);
     taskEntity.setProperty("timestamp", timestamp);
 
@@ -104,10 +108,11 @@ public class DataServlet extends HttpServlet {
           break iterateEntities;
       } else {
         long id = entity.getKey().getId();
+        String userName = (String) entity.getProperty("name");
         String userComment = (String) entity.getProperty("comment");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Comment comment = new Comment(id, userComment, timestamp);
+        Comment comment = new Comment(id, userName, userComment, timestamp);
         comments.add(comment);
         commentCount++;
       }
