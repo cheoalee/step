@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Upload File Using Blobstore</title>
+    <script src="script.js"></script>
+    <style>
+    </style>
+  </head>
+
+  <body onload="fetchBlobstoreUrl()">
+
+    <h1>Upload File Using Blobstore</h1>
+
+    <form id="my-form" class="hidden" method="POST" enctype="multipart/form-data">
+      <p>Type some text:</p>
+      <textarea name="message"></textarea>
+      <br/>
+      <p>Upload an image:</p>
+      <input type="file" name="image">
+      <br/><br/>
+      <button>Submit</button>
+    </form>
+  </body>
+
+</html>
