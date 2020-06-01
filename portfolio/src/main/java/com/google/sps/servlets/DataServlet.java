@@ -21,11 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.List;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  ArrayList<String> comments = new ArrayList<String>();
+  List<String> comments = new ArrayList<String>();
 
   /**
   * Post to page according to user input.
@@ -67,14 +68,13 @@ public class DataServlet extends HttpServlet {
   }
 
   /**
-   * Converts an ArrayList of Strings into a JSON string using the Gson library. Note: First added
+   * Converts a List of Strings into a JSON string using the Gson library. Note: First added
    * the Gson library dependency to pom.xml.
-   * @param serverStats Stats from the server.
+   * @param messages Messages from the server.
    * @return Message as a JSON.
    */
-  private String convertToJsonUsingGson(ArrayList<String> messages) {
+  private String convertToJsonUsingGson(List<String> messages) {
     Gson gson = new Gson();
-    String json = gson.toJson(messages);
-    return json;
+    return(gson.toJson(messages));
   }
 }
