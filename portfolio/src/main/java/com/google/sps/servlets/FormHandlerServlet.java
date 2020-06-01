@@ -22,10 +22,20 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.cloud.vision.v1.AnnotateImageRequest;
+import com.google.cloud.vision.v1.AnnotateImageResponse;
+import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
+import com.google.cloud.vision.v1.EntityAnnotation;
+import com.google.cloud.vision.v1.Feature;
+import com.google.cloud.vision.v1.Image;
+import com.google.cloud.vision.v1.ImageAnnotatorClient;
+import com.google.protobuf.ByteString;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.annotation.WebServlet;
@@ -49,6 +59,8 @@ public class FormHandlerServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+    PrintWriter out = response.getWriter();
+
     // Get the message entered by the user.
     String message = request.getParameter("message");
 
@@ -70,7 +82,6 @@ public class FormHandlerServlet extends HttpServlet {
 
     // Output some HTML that shows the data the user entered.
     // A real codebase would probably store these in Datastore.
-    PrintWriter out = response.getWriter();
     out.println("<p>Here's the image you uploaded:</p>");
     out.println("<a href=\"" + imageUrl + "\">");
     out.println("<img src=\"" + imageUrl + "\" />");
