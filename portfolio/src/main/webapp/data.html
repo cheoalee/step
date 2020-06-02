@@ -3,18 +3,27 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>Random Messages</title>
+    <title>Comment Submission</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   
   <body>
-    <div id="content">
-      <h1>Messages</h1>
-      <p>Click here to see some messages:</p>
-      <button onclick="getMessagesAsJSON()">Fetch messages!</button>
-      <ul id="messages-container"></ul>
-    </div>
+      
+    <h1>Comment Submission</h1>
+    <form action="/data" method="POST">
+
+      <p>Leave a comment:</p>
+      <textarea name="text-input">Enter comment here...</textarea>
+      <br/><br/>
+
+      <p>Choose some options:</p>
+      <input type="checkbox" name="upper-case" value="true"> Upper-case
+      <br/>
+
+      <input type="submit" />
+    </form>
+
   </body>
   
 </html>

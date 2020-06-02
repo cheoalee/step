@@ -143,8 +143,8 @@ function getMessagesAsJSON() {
 
 /**
   * Creates an <li> element containing text.
-  * @param text Text to add as a list element.
-  * @return Text as a list element.
+  * @param {string} text Text to add as a list element.
+  * @return {string} Text as a list element.
   */
 function createListElement(text) {
   const liElement = document.createElement('li');
