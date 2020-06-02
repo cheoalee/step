@@ -6,10 +6,9 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body onload="fetchBlobstoreUrl()">
+  <body onload="initialization()">
       
     <h1 class="sansserif comment-page title">Comment Submission</h1>
-    <button onclick="getLoginStatus()" class="sansserif comment-page">Authentication</button>
 
     <form id="comment-form" action="/data" class="hidden" method="POST" enctype="multipart/form-data">
       <label for="visitor-name" class="sansserif comment-page section-sep">Name:</label>

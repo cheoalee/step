@@ -198,3 +198,8 @@ function getLoginStatus() {
     }
   });
 }
+
+function initialization() {
+  fetchBlobstoreUrl();
+  getLoginStatus();
+}
