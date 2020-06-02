@@ -117,3 +117,10 @@ function tongueReaction() {
   const wantsContainer = document.getElementById('want-container');
   wantsContainer.innerText = "Fido licked your hand.";
 }
+
+/* Fetch pre-determined message (Week 3 Step 2 Back-end Task). */
+async function getMessageUsingAsyncAwait() {
+  const response = await fetch('/data');
+  const msg = await response.text();
+  document.getElementById('quote-container').innerText = msg;
+}
