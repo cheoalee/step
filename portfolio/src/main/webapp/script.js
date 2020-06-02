@@ -178,3 +178,11 @@ function fetchBlobstoreUrl() {
         messageForm.action = imageUploadUrl;
       });
 }
+
+function showCommentsForm() {
+  const response = await fetch('/login');
+  const msg = await response.text();
+  document.getElementById('messages-container').innerText = msg;
+  const messageForm = document.getElementById('my-form');
+  messageForm.classList.remove('hidden');
+}
