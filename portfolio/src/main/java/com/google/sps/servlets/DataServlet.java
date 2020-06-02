@@ -65,7 +65,6 @@ public class DataServlet extends HttpServlet {
     String name;
     String comment;
     String imageLoc;
-    List<String> labelDetails;
     long timestamp;
 
    /**
@@ -73,12 +72,11 @@ public class DataServlet extends HttpServlet {
     * @param userComment The content of the comment left by a visitor.
     * @param submissionTime The time at which the comment was submitted.
     */
-    private Comment(long entityId, String userName, String userComment, String imageURL, List<String> imageLabelDetails, long submissionTime) {
+    private Comment(long entityId, String userName, String userComment, String imageURL, long submissionTime) {
         id = entityId;
         name = userName;
         comment = userComment;
         imageLoc = imageURL;
-        labelDetails = imageLabelDetails;
         timestamp = submissionTime;
     }
   }   
@@ -102,19 +100,6 @@ public class DataServlet extends HttpServlet {
     // Convert the comment to upper case if specified.
     if (upperCase) {
       comment = comment.toUpperCase();
-    }
-
-    /* Get Image Labels */
-    // Get the BlobKey that points to the image uploaded by the user.
-    BlobKey blobKey = getBlobKey(request, "image");
-
-    // Get the labels of the image that the user uploaded.
-    byte[] blobBytes = getBlobBytes(blobKey);
-    List<EntityAnnotation> imageLabels = getImageLabels(blobBytes);
-
-    List<String> imageLabelDetails = new ArrayList<String>();
-    for (EntityAnnotation label : imageLabels) {
-      imageLabelDetails.add(label.getDescription() + ": " + label.getScore());
     }
 
     // Store comment as entity in Datastore.
@@ -155,10 +140,9 @@ public class DataServlet extends HttpServlet {
         String userName = (String) entity.getProperty("name");
         String userComment = (String) entity.getProperty("comment");
         String imageLoc = (String) entity.getProperty("imageLoc");
-        List<String> imageLabelDetails = (List<String>) entity.getProperty("labelDetails");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Comment comment = new Comment(id, userName, userComment, imageLoc, imageLabelDetails, timestamp);
+        Comment comment = new Comment(id, userName, userComment, imageLoc, timestamp);
         comments.add(comment);
         commentCount++;
       }
@@ -271,94 +255,5 @@ public class DataServlet extends HttpServlet {
       return imagesService.getServingUrl(options);
     }
   }
-
-   /**
-   * Returns the BlobKey that points to the file uploaded by the user, or null if the user didn't
-   * upload a file.
-   * @param request
-   * @param formInputElementName What the file element's name is in blobstore-upload.html.
-   * @return The Blobkey for the uploaded file.
-   */
-  private BlobKey getBlobKey(HttpServletRequest request, String formInputElementName) {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get("image");
-
-    // User submitted form without selecting a file, so we can't get a BlobKey. (dev server)
-    if (blobKeys == null || blobKeys.isEmpty()) {
-      return null;
-    }
-
-    // Our form only contains a single file input, so get the first index.
-    BlobKey blobKey = blobKeys.get(0);
-
-    // User submitted form without selecting a file, so the BlobKey is empty. (live server)
-    BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
-    if (blobInfo.getSize() == 0) {
-      blobstoreService.delete(blobKey);
-      return null;
-    }
-
-    return blobKey;
-  }
-
-  /**
-   * Blobstore stores files as binary data. This function retrieves the binary data stored at the
-   * BlobKey parameter.
-   * @param blobKey
-   * @return Bytes of the blob with the given blobKey.
-   */
-  private byte[] getBlobBytes(BlobKey blobKey) throws IOException {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
-
-    int fetchSize = BlobstoreService.MAX_BLOB_FETCH_SIZE;
-    long currentByteIndex = 0;
-    boolean continueReading = true;
-    while (continueReading) {
-      // End index is inclusive, so we have to subtract 1 to get fetchSize bytes.
-      byte[] b =
-          blobstoreService.fetchData(blobKey, currentByteIndex, currentByteIndex + fetchSize - 1);
-      outputBytes.write(b);
-
-      // If we read fewer bytes than we requested, then we reached the end.
-      if (b.length < fetchSize) {
-        continueReading = false;
-      }
-
-      currentByteIndex += fetchSize;
-    }
-
-    return outputBytes.toByteArray();
-  }
-
-  /**
-   * Uses the Google Cloud Vision API to generate a list of labels that apply to the image
-   * represented by the binary data stored in imgBytes.
-   * @param imgBytes 
-   * @return list of labels generated for the image with the given bytes.
-   */
-  private List<EntityAnnotation> getImageLabels(byte[] imgBytes) throws IOException {
-    ByteString byteString = ByteString.copyFrom(imgBytes);
-    Image image = Image.newBuilder().setContent(byteString).build();
-
-    Feature feature = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
-    AnnotateImageRequest request =
-        AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
-    List<AnnotateImageRequest> requests = new ArrayList<>();
-    requests.add(request);
-
-    ImageAnnotatorClient client = ImageAnnotatorClient.create();
-    BatchAnnotateImagesResponse batchResponse = client.batchAnnotateImages(requests);
-    client.close();
-    List<AnnotateImageResponse> imageResponses = batchResponse.getResponsesList();
-    AnnotateImageResponse imageResponse = imageResponses.get(0);
-
-    if (imageResponse.hasError()) {
-      System.err.println("Error getting image labels: " + imageResponse.getError().getMessage());
-      return null;
-    }
-
-    return imageResponse.getLabelAnnotationsList();
-  }
 }
+
