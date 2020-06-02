@@ -28,6 +28,11 @@ public final class ServerStatsServlet extends HttpServlet {
 
   private final Date startTime = new Date();
 
+  /**
+  * Request something, then return it.
+  * @param request Request something.
+  * @param response Response received from request.
+  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Calculate server stats
@@ -46,6 +51,8 @@ public final class ServerStatsServlet extends HttpServlet {
 
   /**
    * Converts a ServerStats instance into a JSON string using manual String concatentation.
+   * @param serverStats
+   * @param json
    */
   private String convertToJson(ServerStats serverStats) {
     String json = "{";
@@ -65,8 +72,9 @@ public final class ServerStatsServlet extends HttpServlet {
   }
 
   /**
-   * Converts a ServerStats instance into a JSON string using the Gson library. Note: We first added
+   * Converts a ServerStats instance into a JSON string using the Gson library. Note: First added
    * the Gson library dependency to pom.xml.
+   * @param serverStats Stats from the server.
    */
   private String convertToJsonUsingGson(ServerStats serverStats) {
     Gson gson = new Gson();

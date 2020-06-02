@@ -122,5 +122,32 @@ function tongueReaction() {
 async function getMessageUsingAsyncAwait() {
   const response = await fetch('/data');
   const msg = await response.text();
-  document.getElementById('quote-container').innerText = msg;
+  document.getElementById('messages-container').innerText = msg;
+}
+
+/**
+ * Fetches messages from /data and adds them to the DOM.
+ */
+function getMessagesAsJSON() {
+ fetch('/data').then(response => response.json()).then((messages) => {
+    const messagesContainer = document.getElementById('messages-container');
+    messagesContainer.innerHTML = '';
+    messagesContainer.appendChild(
+        createListElement('First message: ' + messages[0]));
+    messagesContainer.appendChild(
+        createListElement('Second message: ' + messages[1]));
+    messagesContainer.appendChild(
+        createListElement('Third message: ' + messages[2]));
+  });
+}
+
+/**
+  * Creates an <li> element containing text.
+  * @param text Text to add as a list element.
+  * @return Text as a list element.
+  */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }

@@ -17,8 +17,8 @@
  */
 function getServerStats() {
   fetch('/server-stats').then(response => response.json()).then((stats) => {
-    // stats is an object, not a string, so we have to
-    // reference its fields to create HTML content
+    // Stats is an object, not a string, so we have to
+    // reference its fields to create HTML content.
 
     const statsListElement = document.getElementById('server-stats-container');
     statsListElement.innerHTML = '';
@@ -33,7 +33,11 @@ function getServerStats() {
   });
 }
 
-/** Creates an <li> element containing text. */
+/**
+  * Creates an <li> element containing text.
+  * @param text Text to add as a list element.
+  * @return Text as a list element.
+  */
 function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
