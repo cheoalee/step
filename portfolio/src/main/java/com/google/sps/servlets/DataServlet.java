@@ -58,7 +58,9 @@ public class DataServlet extends HttpServlet {
 
    /**
     * @param entityId Id of the entity, used for Datastore storage.
+    * @param userName The name of the visitor.
     * @param userComment The content of the comment left by a visitor.
+    * @param imageURL URL of the image submitted by the visitor.
     * @param submissionTime The time at which the comment was submitted.
     */
     private Comment(long entityId, String userName, String userComment, String imageURL, long submissionTime) {
