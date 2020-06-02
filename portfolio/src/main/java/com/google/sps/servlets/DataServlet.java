@@ -41,6 +41,8 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
@@ -52,6 +54,7 @@ public class DataServlet extends HttpServlet {
   private class Comment {
     long id;
     String name;
+    String email;
     String comment;
     String imageLoc;
     long timestamp;
@@ -59,11 +62,14 @@ public class DataServlet extends HttpServlet {
    /**
     * @param entityId Id of the entity, used for Datastore storage.
     * @param userComment The content of the comment left by a visitor.
+    * @param userEmail The visitor's email address.
+    * @param imageURL URL of the image submitted by the visitor.
     * @param submissionTime The time at which the comment was submitted.
     */
-    private Comment(long entityId, String userName, String userComment, String imageURL, long submissionTime) {
+    private Comment(long entityId, String userName, String userEmail, String userComment, String imageURL, long submissionTime) {
         id = entityId;
         name = userName;
+        email = userEmail;
         comment = userComment;
         imageLoc = imageURL;
         timestamp = submissionTime;
@@ -77,10 +83,12 @@ public class DataServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
     // Get the visitor choice of # of comments to view.
     visitorChoice = getVisitorChoice(request);
 
     String name = secureReformat(getParameter(request, "visitor-name", ""));
+    String email = secureReformat(userService.getCurrentUser().getEmail());
     String comment = secureReformat(getParameter(request, "visitor-comment", ""));
     String imageURL = getUploadedFileUrl(request, "image");
     long timestamp = System.currentTimeMillis();
@@ -94,6 +102,7 @@ public class DataServlet extends HttpServlet {
     // Store comment as entity in Datastore.
     Entity taskEntity = new Entity("Task");
     taskEntity.setProperty("name", name);
+    taskEntity.setProperty("email", email);
     taskEntity.setProperty("comment", comment);
     taskEntity.setProperty("imageLoc", imageURL);
     taskEntity.setProperty("timestamp", timestamp);
@@ -126,11 +135,12 @@ public class DataServlet extends HttpServlet {
       } else {
         long id = entity.getKey().getId();
         String userName = (String) entity.getProperty("name");
+        String userEmail = (String) entity.getProperty("email");
         String userComment = (String) entity.getProperty("comment");
         String imageLoc = (String) entity.getProperty("imageLoc");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Comment comment = new Comment(id, userName, userComment, imageLoc, timestamp);
+        Comment comment = new Comment(id, userName, userEmail, userComment, imageLoc, timestamp);
         comments.add(comment);
         commentCount++;
       }
