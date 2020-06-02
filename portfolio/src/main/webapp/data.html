@@ -10,7 +10,9 @@
       
     <h1 class="sansserif comment-page title">Comment Submission</h1>
 
-    <form action="/data" method="POST">
+    <button onclick="getLoginStatus()">Authentication</button>
+
+    <form id="logged-in" action="/data" class="hidden" method="POST">
       <label for="visitor-name" class="sansserif comment-page section-sep">Name:</label>
       <input type="text" id="username" name="visitor-name" class="sansserif comment-page" required>
 
@@ -29,9 +31,21 @@
       <br/><br/>
 
       <input type="submit" class="sansserif comment-page section-sep"/>
+      
       <button onclick="clearCommentsUsingAsyncAwait()" class="sansserif comment-page">Clear all comments</button>
       <div id="messages-container" class="sansserif comment-page"></div>
+
+      <form action="/login">
+        <input type="submit" value="Log out" />
+      </form>
     </form>
+
+    <div id="not-logged-in" class="hidden">
+      <p>Hello, stranger.</p>
+      <form action="/login">
+        <input type="submit" value="Log in" />
+      </form>
+    </div>
 
   </body>
 </html>

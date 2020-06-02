@@ -179,10 +179,16 @@ function fetchBlobstoreUrl() {
       });
 }
 
-function showCommentsForm() {
-  const response = await fetch('/login');
-  const msg = await response.text();
-  document.getElementById('messages-container').innerText = msg;
-  const messageForm = document.getElementById('my-form');
-  messageForm.classList.remove('hidden');
+function getLoginStatus() {
+  fetch('/login').then(response => response.text()).then((msg) => {
+    if (msg == "Logged in.") {
+      console.log("Logged in!");
+      const messageForm = document.getElementById('logged-in');
+      messageForm.classList.remove('hidden');
+    } else {
+      console.log("Not logged in!");
+      const messageForm = document.getElementById('not-logged-in');
+      messageForm.classList.remove('hidden');
+    }
+  });
 }

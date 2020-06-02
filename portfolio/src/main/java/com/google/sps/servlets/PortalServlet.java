@@ -27,11 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/portal")
 public class PortalServlet extends HttpServlet {
 
- /**
-  * Determine if user has logged in and what to show them, accordingly.
-  * @param request
-  * @param response
-  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html");

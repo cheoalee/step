@@ -43,27 +43,14 @@ public class LoginServlet extends HttpServlet {
 
     UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
+      out.println("Logged in.");
       String userEmail = userService.getCurrentUser().getEmail();
-      String urlToRedirectToAfterUserLogsOut = "/";
-      String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
-
-      out.println("<h1>Set Nickname</h1>");
-
-      String nickname = getUserNickname(userService.getCurrentUser().getUserId());
-      out.println("<p>Set your nickname here:</p>");
-      out.println("<form method=\"POST\" action=\"/login\">");
-      out.println("<input name=\"nickname\" value=\"" + nickname + "\" />");
-      out.println("<br/>");
-      out.println("<button>Submit</button>");
-      out.println("</form>");
-
-      out.println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+      // String urlToRedirectToAfterUserLogsOut = "/login.html";
+      // String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
+      response.sendRedirect("/login.html");
     } else {
-      String urlToRedirectToAfterUserLogsIn = "/login";
+      String urlToRedirectToAfterUserLogsIn = "/login.html";
       String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
-
-      out.println("<p>Hello, stranger.</p>");
-      out.println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
     }
   }
 
@@ -80,35 +67,14 @@ public class LoginServlet extends HttpServlet {
       return;
     }
 
-    String nickname = request.getParameter("nickname");
     String id = userService.getCurrentUser().getUserId();
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity entity = new Entity("UserInfo", id);
     entity.setProperty("id", id);
-    entity.setProperty("nickname", nickname);
     // The put() function automatically inserts new data or updates existing data based on ID
     datastore.put(entity);
 
     response.sendRedirect("/portal");
-  }
-
-
-  /**
-   * @param id
-   * @return Nickname of the user with id, or empty String if the user has not set a nickname.
-   */
-  private String getUserNickname(String id) {
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Query query =
-        new Query("UserInfo")
-            .setFilter(new Query.FilterPredicate("id", Query.FilterOperator.EQUAL, id));
-    PreparedQuery results = datastore.prepare(query);
-    Entity entity = results.asSingleEntity();
-    if (entity == null) {
-      return "";
-    }
-    String nickname = (String) entity.getProperty("nickname");
-    return nickname;
   }
 }

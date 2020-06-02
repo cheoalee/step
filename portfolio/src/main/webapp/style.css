@@ -466,3 +466,9 @@ label.section-sep {
     display: block;
     margin-top: 1em;
 }
+
+/* AUTHENTICATION */
+
+.hidden {
+  display: none;
+}
