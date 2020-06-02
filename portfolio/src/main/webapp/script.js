@@ -181,14 +181,17 @@ function fetchBlobstoreUrl() {
 
 function getLoginStatus() {
   fetch('/login').then(response => response.text()).then((msg) => {
-    if (msg == "Logged in.") {
-      console.log("Logged in!");
-      const messageForm = document.getElementById('logged-in');
-      messageForm.classList.remove('hidden');
-    } else {
+    if (msg) {
       console.log("Not logged in!");
-      const messageForm = document.getElementById('not-logged-in');
-      messageForm.classList.remove('hidden');
+      var a = document.createElement('a');
+      a.setAttribute('href', msg);
+      a.innerHTML = "Log in";
+      document.body.appendChild(a);
+    } else {
+      const commentForm = document.getElementById('logged-in');
+      commentForm.classList.remove('hidden');
+      const portalAccess = document.getElementById('portal');
+      portalAccess.classList.remove('hidden');
     }
   });
 }

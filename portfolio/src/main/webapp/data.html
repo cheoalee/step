@@ -6,11 +6,9 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  <body onload="getLoginStatus();">
       
     <h1 class="sansserif comment-page title">Comment Submission</h1>
-
-    <button onclick="getLoginStatus()">Authentication</button>
 
     <form id="logged-in" action="/data" class="hidden" method="POST">
       <label for="visitor-name" class="sansserif comment-page section-sep">Name:</label>
@@ -34,18 +32,11 @@
       
       <button onclick="clearCommentsUsingAsyncAwait()" class="sansserif comment-page">Clear all comments</button>
       <div id="messages-container" class="sansserif comment-page"></div>
-
-      <form action="/login">
-        <input type="submit" value="Log out" />
-      </form>
     </form>
 
-    <div id="not-logged-in" class="hidden">
-      <p>Hello, stranger.</p>
-      <form action="/login">
-        <input type="submit" value="Log in" />
-      </form>
-    </div>
+    <form id="portal" action="/portal" class="hidden">
+        <input type="submit" value="Go to User Portal" />
+    </form>
 
   </body>
 </html>

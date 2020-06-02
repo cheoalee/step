@@ -38,19 +38,16 @@ public class LoginServlet extends HttpServlet {
   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
     response.setContentType("text/html");
     PrintWriter out = response.getWriter();
 
-    UserService userService = UserServiceFactory.getUserService();
     if (userService.isUserLoggedIn()) {
-      out.println("Logged in.");
       String userEmail = userService.getCurrentUser().getEmail();
-      // String urlToRedirectToAfterUserLogsOut = "/login.html";
-      // String logoutUrl = userService.createLogoutURL(urlToRedirectToAfterUserLogsOut);
-      response.sendRedirect("/login.html");
     } else {
-      String urlToRedirectToAfterUserLogsIn = "/login.html";
-      String loginUrl = userService.createLoginURL(urlToRedirectToAfterUserLogsIn);
+      // URL to redirect to after user logs in.
+      String loginUrl = userService.createLoginURL("/data.html");
+      out.println(loginUrl);
     }
   }
 
@@ -61,9 +58,10 @@ public class LoginServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    System.err.println("Reached doPost!");
     UserService userService = UserServiceFactory.getUserService();
     if (!userService.isUserLoggedIn()) {
-      response.sendRedirect("/login");
+      response.sendRedirect("/data.html");
       return;
     }
 
@@ -75,6 +73,6 @@ public class LoginServlet extends HttpServlet {
     // The put() function automatically inserts new data or updates existing data based on ID
     datastore.put(entity);
 
-    response.sendRedirect("/portal");
+    response.sendRedirect("/data.html");
   }
 }
