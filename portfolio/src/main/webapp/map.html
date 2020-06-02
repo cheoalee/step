@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html class="map-page">
-  <head>
-    <meta charset="UTF-8">
-    <title>Map</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    </style>
-  </head>
 
-  <body class="map-page">
-    <div id="map"></div>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAD75hOF50fylfzRQZObT067sI5UaxAIU&callback=initMap">
-    </script>
-  </body>
+<head>
+  <title>Marker Storage</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAD75hOF50fylfzRQZObT067sI5UaxAIU"></script>
+  <script src="script.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="map-page" onload="createMap()">
+  
+  <h1>Marker Storage</h1>
+
+  <div id="map"></div>
+  <p>Click on the map to create a new marker at that location.</p>
+
+</body>
+
 </html>
