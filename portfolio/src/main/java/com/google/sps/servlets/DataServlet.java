@@ -61,6 +61,7 @@ public class DataServlet extends HttpServlet {
 
    /**
     * @param entityId Id of the entity, used for Datastore storage.
+    * @param userName The name of the visitor.
     * @param userComment The content of the comment left by a visitor.
     * @param userEmail The visitor's email address.
     * @param imageURL URL of the image submitted by the visitor.
