@@ -14,7 +14,6 @@
 
 package com.google.sps.servlets;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.MalformedURLException;
@@ -42,16 +41,6 @@ import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-import com.google.cloud.vision.v1.AnnotateImageRequest;
-import com.google.cloud.vision.v1.AnnotateImageResponse;
-import com.google.cloud.vision.v1.BatchAnnotateImagesResponse;
-import com.google.cloud.vision.v1.EntityAnnotation;
-import com.google.cloud.vision.v1.Feature;
-import com.google.cloud.vision.v1.Image;
-import com.google.cloud.vision.v1.ImageAnnotatorClient;
-import com.google.protobuf.ByteString;
 
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
@@ -97,7 +86,7 @@ public class DataServlet extends HttpServlet {
     long timestamp = System.currentTimeMillis();
     boolean upperCase = Boolean.parseBoolean(getParameter(request, "upper-case", "false"));
 
-    // Convert the comment to upper case if specified.
+    // Convert the comment to upper case.
     if (upperCase) {
       comment = comment.toUpperCase();
     }
@@ -107,7 +96,6 @@ public class DataServlet extends HttpServlet {
     taskEntity.setProperty("name", name);
     taskEntity.setProperty("comment", comment);
     taskEntity.setProperty("imageLoc", imageURL);
-    taskEntity.setProperty("labelDetails", imageLabelDetails);
     taskEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -256,4 +244,3 @@ public class DataServlet extends HttpServlet {
     }
   }
 }
-

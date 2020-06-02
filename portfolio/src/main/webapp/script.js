@@ -172,13 +172,16 @@ function fetchBlobstoreUrl() {
         return response.text();
       })
       .then((imageUploadUrl) => {
-        const messageForm = document.getElementById('my-form');
+        const messageForm = document.getElementById('comment-form');
         // Directs visitor to /my-form-handler, where the text and image
         // submitted will be shown.
         messageForm.action = imageUploadUrl;
       });
 }
 
+ /**
+  * Fetch login status from LoginServlet.java.
+  */
 function getLoginStatus() {
   fetch('/login').then(response => response.text()).then((msg) => {
     if (msg) {
@@ -188,7 +191,7 @@ function getLoginStatus() {
       a.innerHTML = "Log in";
       document.body.appendChild(a);
     } else {
-      const commentForm = document.getElementById('logged-in');
+      const commentForm = document.getElementById('comment-form');
       commentForm.classList.remove('hidden');
       const portalAccess = document.getElementById('portal');
       portalAccess.classList.remove('hidden');
