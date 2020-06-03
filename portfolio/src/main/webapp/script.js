@@ -121,8 +121,8 @@ function tongueReaction() {
  /**
   * Fetches comments from /data and adds them to the DOM.
   */
-function getComments() {
-  fetch('/data').then(response => response.json()).then((comments) => {
+function getComments(commentCount) {
+  fetch('/data?visitorChoice=' + commentCount).then(response => response.json()).then((comments) => {
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
     comments.forEach((comment) => {

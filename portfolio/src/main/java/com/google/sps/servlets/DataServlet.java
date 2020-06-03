@@ -46,7 +46,6 @@ import com.google.appengine.api.images.ServingUrlOptions;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   // Number of comments the visitor chooses to see.
-  int visitorChoice;
 
   /** A comment from a page visitor. */
   private class Comment {
@@ -79,9 +78,6 @@ public class DataServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the visitor choice of # of comments to view.
-    visitorChoice = getVisitorChoice(request);
-
     String name = secureReformat(getParameter(request, "visitor-name", ""));
     String comment = secureReformat(getParameter(request, "visitor-comment", ""));
     String imageURL = getUploadedFileUrl(request, "image");
@@ -115,6 +111,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    int visitorChoice = Integer.parseInt(getParameter(request, "visitorChoice", ""));
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
@@ -132,7 +129,8 @@ public class DataServlet extends HttpServlet {
         String imageLoc = (String) entity.getProperty("imageLoc");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        comments.add("<p>" + userName + ": " + userComment + "</p>" + "<img src=" + imageLoc + " alt='Visitor-submitted image'>");
+        comments.add("<p>" + userName + ": " + userComment + "</p>" +
+                    "<img src=" + imageLoc + " alt='Visitor-submitted image'>");
         commentCount++;
       }
     }
