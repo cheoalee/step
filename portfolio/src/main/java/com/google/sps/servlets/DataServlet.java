@@ -124,14 +124,13 @@ public class DataServlet extends HttpServlet {
   }
 
   /**
-   * Converts an ArrayList of Strings into a JSON string using the Gson library. Note: First added
+   * Converts a List of Strings into a JSON string using the Gson library. Note: First added
    * the Gson library dependency to pom.xml.
-   * @param messages Stats from the server.
+   * @param messages Messages from the server.
    * @return Message as a JSON.
    */
-  private String convertToJsonUsingGson(ArrayList<String> messages) {
+  private String convertToJsonUsingGson(List<String> messages) {
     Gson gson = new Gson();
-    String json = gson.toJson(messages);
-    return json;
+    return(gson.toJson(messages));
   }
 }
