@@ -162,7 +162,7 @@ public class DataServlet extends HttpServlet {
   }
 
   /**
-   * Converts an ArrayList of Comments into a JSON string using the Gson library. Note: First added
+   * Converts a List of Comments into a JSON string using the Gson library. Note: First added
    * the Gson library dependency to pom.xml.
    * @param comments Comments from the server.
    * @return Message as a JSON.
