@@ -265,30 +265,3 @@ function buildInfoWindowInput(lat, lng) {
 
   return containerDiv;
 }
-
-/* CHARTS */
-
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-
-/** Creates a chart and adds it to the page. */
-function drawChart() {
-  const data = new google.visualization.DataTable();
-  data.addColumn('string', 'Activity');
-  data.addColumn('number', 'Hours');
-        data.addRows([
-          ['Actually coding', 1],
-          ['Reading documentation', 2],
-          ['Debugging', 5]
-        ]);
-
-  const options = {
-    'title': 'Programming', 
-    'width':500,
-    'height':400
-  };
-
-  const chart = new google.visualization.PieChart(
-      document.getElementById('chart-container'));
-  chart.draw(data, options);
-}
