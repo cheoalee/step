@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset="UTF-8">
     <title>Comment Submission</title>
@@ -7,11 +8,11 @@
     <script src="script.js"></script>
   </head>
 
-  <body onload="fetchBlobstoreUrl()">
-      
+  <body onload="initialize()">
+    
     <h1 class="sansserif comment-page title">Comment Submission</h1>
 
-    <form action="/data" id="my-form" method="POST" enctype="multipart/form-data">
+    <form id="my-form" action="/data" method="POST" enctype="multipart/form-data">
       <label for="visitor-name" class="sansserif comment-page section-sep">Name:</label>
       <input type="text" id="username" name="visitor-name" class="sansserif comment-page" required>
 
@@ -30,9 +31,12 @@
       <br/><br/>
 
       <input type="submit" class="sansserif comment-page section-sep"/>
-      <button onclick="clearCommentsUsingAsyncAwait()" class="sansserif comment-page">Clear all comments</button>
-      <div id="messages-container" class="sansserif comment-page"></div>
     </form>
 
+    <button onclick="clearCommentsUsingAsyncAwait()" class="sansserif comment-page">Clear all comments</button>
+    <ul id="message-container"></ul>
+    <ul id="comments-container"></ul>
+
   </body>
+
 </html>

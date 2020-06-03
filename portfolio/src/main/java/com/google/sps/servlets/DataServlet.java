@@ -102,9 +102,9 @@ public class DataServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(taskEntity);
-
-    // Bring user to comments section
-    response.sendRedirect("/data");
+    
+    // Redirect user back to comment form.
+    response.sendRedirect("/data.html");
   }
 
  /**
@@ -119,7 +119,7 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    List<Comment> comments = new ArrayList<>();
+    List<String> comments = new ArrayList<>();
     int commentCount = 0;
     iterateEntities:
     for (Entity entity : results.asIterable()) {
@@ -132,8 +132,7 @@ public class DataServlet extends HttpServlet {
         String imageLoc = (String) entity.getProperty("imageLoc");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Comment comment = new Comment(id, userName, userComment, imageLoc, timestamp);
-        comments.add(comment);
+        comments.add("<p>" + userName + ": " + userComment + "</p>" + "<img src=" + imageLoc + " alt='Visitor-submitted image'>");
         commentCount++;
       }
     }
@@ -201,7 +200,7 @@ public class DataServlet extends HttpServlet {
    * @param comments Comments from the server.
    * @return Message as a JSON.
    */
-  private String convertToJsonUsingGson(List<Comment> comments) {
+  private String convertToJsonUsingGson(List<String> comments) {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     return gson.toJson(comments);
   }
