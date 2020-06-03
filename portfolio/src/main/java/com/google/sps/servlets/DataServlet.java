@@ -15,18 +15,20 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  List<String> comments = new ArrayList<String>();
 
   /**
   * Post to page according to user input.
@@ -36,18 +38,21 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
-    String text = getParameter(request, "text-input", "");
+    String comment = getParameter(request, "text-input", "");
     boolean upperCase = Boolean.parseBoolean(getParameter(request, "upper-case", "false"));
 
-    // Convert the text to upper case.
+    // Convert the comment to upper case.
     if (upperCase) {
-      text = text.toUpperCase();
+      comment = comment.toUpperCase();
     }
 
-    comments.add(text);
-    // Respond with the result.
-    response.setContentType("text/html;");
-    response.getWriter().println(comments);
+    // Store comment as entity in Datastore
+    Entity taskEntity = new Entity("Task");
+    taskEntity.setProperty("comment", comment);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(taskEntity);
+
     // Redirect back to the HTML page on which the comment was entered.
     response.sendRedirect("/data.html");
   }
