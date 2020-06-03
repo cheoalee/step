@@ -185,7 +185,6 @@ public class DataServlet extends HttpServlet {
       System.err.println("Choice is out of range: " + visitorChoiceString);
       return -1;
     }
-
     return visitorChoice;
   }
 
