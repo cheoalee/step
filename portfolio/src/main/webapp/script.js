@@ -123,12 +123,9 @@ function tongueReaction() {
   */
 function getComments() {
   fetch('/data').then(response => response.json()).then((comments) => {
-    console.log("Accessed getComments");
     const commentsContainer = document.getElementById('comments-container');
     commentsContainer.innerHTML = '';
-    console.log("Getting comments: " + comments);
     comments.forEach((comment) => {
-      console.log("Comment: " + comment);
       commentsContainer.innerHTML += comment;
     });
   });
