@@ -94,6 +94,7 @@ public class DataServlet extends HttpServlet {
     taskEntity.setProperty("name", name);
     taskEntity.setProperty("comment", comment);
     taskEntity.setProperty("imageLoc", imageURL);
+    taskEntity.setProperty("comment", comment);
     taskEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -173,7 +174,6 @@ public class DataServlet extends HttpServlet {
       System.err.println("Choice is out of range: " + visitorChoiceString);
       return -1;
     }
-
     return visitorChoice;
   }
 
