@@ -10,20 +10,26 @@
   
   <body>
       
-    <h1>Comment Submission</h1>
-    <form action="/data" method="POST">
+    <h1 class="sansserif comment-page title">Comment Submission</h1>
 
-      <p>Leave a comment:</p>
-      <textarea name="text-input">Enter comment here...</textarea>
+    <form action="/data" method="POST">
+      <p class="sansserif comment-page section-sep">Leave a comment:</p>
+      <textarea name="text-input" class="sansserif comment-page">Enter comment here...</textarea>
       <br/><br/>
 
-      <p>Choose some options:</p>
-      <input type="checkbox" name="upper-case" value="true"> Upper-case
+      <p class="sansserif comment-page">Add some spice:</p>
+      <input type="checkbox" name="upper-case" class="sansserif" value="true"><label for="checkbox">Upper-case</label>
       <br/>
 
-      <input type="submit" />
+      <label for="visitor-choice" class="sansserif comment-page section-sep">How many other comments would you like to see?</label>
+      <input type="number" name="visitor-choice" class="sansserif comment-page" min="0" max="10" value="1">
+      <br/><br/>
+
+      <input type="submit" class="sansserif comment-page"/>
+      <button onclick="clearCommentsUsingAsyncAwait()" class="sansserif comment-page">Clear all comments</button>
+      <div id="messages-container" class="sansserif comment-page"></div>
     </form>
 
   </body>
-  
+
 </html>

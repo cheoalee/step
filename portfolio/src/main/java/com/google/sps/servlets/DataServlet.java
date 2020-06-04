@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -32,6 +33,8 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
+  // Number of comments the visitor chooses to see.
+  int visitorChoice;
 
 /** A comment from a page visitor. */
   private class Comment {
@@ -59,6 +62,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get the input from the form.
+    visitorChoice = getVisitorChoice(request);
     String comment = getParameter(request, "text-input", "");
     long timestamp = System.currentTimeMillis();
     boolean upperCase = Boolean.parseBoolean(getParameter(request, "upper-case", "false"));
@@ -76,8 +80,8 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(taskEntity);
 
-    // Redirect back to the HTML page on which the comment was entered.
-    response.sendRedirect("/data.html");
+    // Bring user to comments section
+    response.sendRedirect("/data");
   }
 
  /**
@@ -93,19 +97,53 @@ public class DataServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> comments = new ArrayList<>();
+    int commentCount = 0;
+    iterateEntities:
     for (Entity entity : results.asIterable()) {
-      long id = entity.getKey().getId();
-      String userComment = (String) entity.getProperty("comment");
-      long timestamp = (long) entity.getProperty("timestamp");
+      if (commentCount >= visitorChoice) {
+          break iterateEntities;
+      } else {
+        long id = entity.getKey().getId();
+        String userComment = (String) entity.getProperty("comment");
+        long timestamp = (long) entity.getProperty("timestamp");
 
-      Comment comment = new Comment(id, userComment, timestamp);
-      comments.add(comment);
+        Comment comment = new Comment(id, userComment, timestamp);
+        comments.add(comment);
+        commentCount++;
+      }
     }
 
-    Gson gson = new Gson();
-
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(comments));
+    response.getWriter().println(convertToJsonUsingGson(comments));
+  }
+
+  /**
+   * Returns the choice, for number of comments to display, entered by the visitor,
+   * or -1 if the choice was invalid.
+   * @param request
+   * @return Number of comments to display as an int, or -1 if invalid value
+   * entered (0-10 only).
+   */
+  private int getVisitorChoice(HttpServletRequest request) {
+    // Get the input from the form.
+    String visitorChoiceString = request.getParameter("visitor-choice");
+
+    // Convert the input to an int.
+    int visitorChoice;
+    try {
+      visitorChoice = Integer.parseInt(visitorChoiceString);
+    } catch (NumberFormatException e) {
+      System.err.println("Could not convert to int: " + visitorChoiceString);
+      return -1;
+    }
+
+    // Check that the input is between 0 and 10.
+    if (visitorChoice < 0 || visitorChoice > 10) {
+      System.err.println("Choice is out of range: " + visitorChoiceString);
+      return -1;
+    }
+
+    return visitorChoice;
   }
 
   /**
@@ -124,13 +162,13 @@ public class DataServlet extends HttpServlet {
   }
 
   /**
-   * Converts a List of Strings into a JSON string using the Gson library. Note: First added
+   * Converts a List of Comments into a JSON string using the Gson library. Note: First added
    * the Gson library dependency to pom.xml.
-   * @param messages Messages from the server.
+   * @param comments Comments from the server.
    * @return Message as a JSON.
    */
-  private String convertToJsonUsingGson(List<String> messages) {
-    Gson gson = new Gson();
-    return(gson.toJson(messages));
+  private String convertToJsonUsingGson(List<Comment> comments) {
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    return gson.toJson(comments);
   }
 }

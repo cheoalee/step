@@ -118,16 +118,18 @@ function tongueReaction() {
   wantsContainer.innerText = "Fido licked your hand.";
 }
 
-/* Fetch pre-determined message (Week 3 Step 2 Back-end Task). */
+ /**
+  * Fetch pre-determined message (Week 3 Step 2 Back-end Task).
+  */
 async function getMessageUsingAsyncAwait() {
   const response = await fetch('/data');
   const msg = await response.text();
   document.getElementById('messages-container').innerText = msg;
 }
 
-/**
- * Fetches messages from /data and adds them to the DOM.
- */
+ /**
+  * Fetches messages from /data and adds them to the DOM.
+  */
 function getMessagesAsJSON() {
  fetch('/data').then(response => response.json()).then((messages) => {
     const messagesContainer = document.getElementById('messages-container');
@@ -141,7 +143,7 @@ function getMessagesAsJSON() {
   });
 }
 
-/**
+ /**
   * Creates an <li> element containing text.
   * @param {string} text Text to add as a list element.
   * @return {string} Text as a list element.
@@ -150,4 +152,13 @@ function createListElement(text) {
   const liElement = document.createElement('li');
   liElement.innerText = text;
   return liElement;
+}
+
+ /**
+  * Fetch comments from Datastore after clearing Datastore;
+  * essentially, clear the Datastore.
+  */
+async function clearCommentsUsingAsyncAwait() {
+  const response = await fetch('/delete-data', {method: 'POST'});
+  document.getElementById('messages-container').innerText = "Successfully deleted all Datastore comments.";
 }
