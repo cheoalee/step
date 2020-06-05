@@ -17,27 +17,29 @@ package com.google.sps;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
- 
+
+/**
+ * Class containing implementation to find available meeting slots
+ * based on existing events and meeting request information.
+ */
 public final class FindMeetingQuery {
- 
+  /**
+   * Find available meeting slots.
+   */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    boolean attendeesExist = false;
-    List<TimeRange> meetingTimes = new ArrayList<TimeRange>();
- 
-    /* GENERAL CASES */
-    // If duration is too long, return no slots
+    /* General Cases */
+    // If the duration is too long, return no slots.
     if(request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
-      System.out.println("Duration is too long.");
-      return meetingTimes;
+      return new ArrayList<TimeRange>();
     }
  
-    // If no conflicts (no events), return whole day
+    // If no conflicts (no events) exist, return all slots.
     if (events.isEmpty()) {
-      System.out.println("No events; all slots work.");
       return allSlots();
     }
  
-    // If no meeting attendees, return whole day
+    // If no meeting attendees exist, return all slots.
+    boolean attendeesExist = false;
     attendeeCheck:
     for (Event event:events) {
       if (!event.getAttendees().isEmpty()) {
@@ -47,53 +49,63 @@ public final class FindMeetingQuery {
     }
  
     if (!attendeesExist) {
-      System.out.println("No attendees; all slots work.");
       return allSlots();
     }
+
+    /*
+     * At this point, we know that attendees exist AND
+     * there are events AND the meeting duration is acceptable
+     * (less than a day long). Now, we must determine which 
+     * events to consider in determining meeting slots
+     * (i.e. events which meeting invitees are attending).
+     */
+
+    /* 
+     * Determine which events count for all mandatory attendees.
+     */
+    List<Event> relEvents = getRelevantEvents(events, request, request.getAttendees());
  
-    // Now, you know:
-    // Attendees exist AND there are events AND the duration is acceptable (less than a day).
-    // Determine which events count (i.e. meeting invitees are
-    // attending those events).
-    List<Event> relevantEvents = countingEvents(events, request);
- 
-    // If no attendees have any event conflicts; all slots work.
-    if (relevantEvents.size() < 1) {
-      System.out.println("No relevant event conflicts; all slots work.");
+    /*
+     * If no attendees (MANDATORY or OPTIONAL)
+     * have any event conflicts, all slots work.
+     */
+    if (relEvents.size() < 1) {
       return allSlots();
     }
  
     /* Address contained events. */
-    relevantEvents = removeContainedEvents(relevantEvents);
+    relEvents = removeContainedEvents(relEvents);
  
     /* Provide available meeting slots. */
-    return getAvailableSlots(relevantEvents, request);
+    return getAvailableSlots(relEvents, request);
   }
- 
-  /* FIND RELEVANT EVENTS */
-  // Figure out which events actually matter - i.e.
-  // a meeting invitee is attending the event - then sort them
-  // by start time as they are added to the relevant events list.
-  public List<Event> countingEvents(Collection<Event> events, MeetingRequest request) {
+
+
+  /**
+   * Returns events that are relevant to the request 
+   * i.e. events which at least one meeting invitee
+   * is attending. The relevant events are sorted by
+   * start time as they are added.
+   * @return Relevant events sorted by start time.
+   */
+  public List<Event> getRelevantEvents(Collection<Event> events, MeetingRequest request,
+                                       Collection<String> invitees) {
     List<Event> relevantEvents = new ArrayList<Event>();
     for (Event event:events) {
       relevantAttendee:
       for (String attendee:event.getAttendees()) {
         // Check if a meeting attendee is attending the event.
-        if (request.getAttendees().contains(attendee)) {
+        if (invitees.contains(attendee)) {
           int idx = 0;
-          System.out.println("RELEVANT ATTENDEE FOUND: One of the attendees, " + attendee + " has an event obligation.");
             int relEventsSize = relevantEvents.size();
-            // If there exists other relevant events, compare them and sort accordingly.
+            // If there exists other relevant events, compare them
+            // and sort according to start time.
             if (relEventsSize > 0) {
-              System.out.println("COMPARING: Relevant events already contains an event. Comparing...");
-              System.out.println("EXISTING REL EVENT START: " + relevantEvents.get(idx).getStart());
-              System.out.println("THIS REL EVENT START: " + event.getStart());
-              while (idx < relEventsSize && TimeRange.ORDER_BY_START.compare(event.getWhen(), relevantEvents.get(idx).getWhen()) > 0) {
+              while (idx < relEventsSize && TimeRange.ORDER_BY_START
+                    .compare(event.getWhen(), relevantEvents.get(idx).getWhen()) > 0) {
                 idx++;
               }
             }
-          System.out.println("ADDING RELEVANT EVENT: Event added to relevantEvents at index " + idx + "\n");
           relevantEvents.add(idx, event);
           break relevantAttendee;
         }
@@ -102,22 +114,21 @@ public final class FindMeetingQuery {
     return relevantEvents;
   }
  
-  /* CONTAINED EVENTS */
-  // Account for contained events -
-  // that is, for each event, loop through previous events
-  // to see if this event is contained wholly in the previous event.
-  // If so, remove it - keep events to remove in a list.
-  // Start from the beginning.
+  /**
+   * Remove events from the given events list that are contained
+   * within other events from the list.
+   */
   public List<Event> removeContainedEvents(List<Event> relevantEvents) {
     int currEventIdx = 0;
     int eventIdx = 0;
     List<Event> containedEvents = new ArrayList<Event>();
+     // For each event, loop through previous events
+     // to see if this event is contained wholly in the previous event.
+     // If so, add it to a list of events to remove.
     while (currEventIdx < relevantEvents.size()) {
-      System.out.println("Checking for contained events...");
       while (eventIdx > 0) {
         Event currEvent = relevantEvents.get(currEventIdx);
         if (relevantEvents.get(eventIdx - 1).getWhen().contains(currEvent.getWhen())) {
-          System.out.println("Contained event found!");
           containedEvents.add(currEvent);
           break;
         }
@@ -129,31 +140,27 @@ public final class FindMeetingQuery {
  
     // Remove contained events.
     for (Event containedEvent:containedEvents) {
-      System.out.println("Removing contained event.");
       relevantEvents.remove(containedEvent);
     }
     return relevantEvents;
   }
  
-  /* FINAL STEP: PROVIDE MEETING TIMES */
+  /**
+   * Provide available meeting slots.
+   */
   public List<TimeRange> getAvailableSlots(List<Event> relevantEvents, MeetingRequest request) {
     List<TimeRange> meetingSlots = new ArrayList<TimeRange>();
-    // Add time ranges accordingly
     int eventIdx = 0;
     int lastEventIdx = relevantEvents.size() - 1;
     int start = 0;
     int end = 0;
-    // TODO: Figure out why duration is a long in the first place.
     int requestDuration = (int) request.getDuration();
     for (Event relEvent:relevantEvents) {
-      System.out.println("TRACKED: Event lasting from " + relEvent.getStart() + " to " + relEvent.getEnd());
       if (eventIdx == 0) {
         start = TimeRange.START_OF_DAY;
         end = relEvent.getStart();
-        // Don't allow user to create an event from 0 to 0 - ADD STIPULATION FOR MEETING DURATION > 1.
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, false));
-          System.out.println("TIME ADDED (START): From " + start + " to " + end);
         }
       } else {
         int prevEventIdx = eventIdx - 1;
@@ -161,7 +168,6 @@ public final class FindMeetingQuery {
         end = relEvent.getStart();
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, false));
-          System.out.println("TIME ADDED (BTWN): From " + start + " to " + end);
         }
       }
       if (eventIdx == lastEventIdx) {
@@ -169,27 +175,24 @@ public final class FindMeetingQuery {
         end = TimeRange.END_OF_DAY;
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, true));
-          System.out.println("TIME ADDED (END): From " + start + " to " + end);
         }
       }
-      System.out.println("\n");
       eventIdx++;
     }
     return meetingSlots;
   }
  
-  // Returns the entire day
   public Collection<TimeRange> allSlots() {
     List<TimeRange> meetingTimes = new ArrayList<TimeRange>();
     meetingTimes.add(TimeRange.WHOLE_DAY);
     return meetingTimes;
   }
  
-  // Ensures that meeting suggestions make
-  // logical sense - that is, end > start
-  // and the duration is encompassed.
-  // In place for edge cases as a result of
-  // checks for overlaps.
+  /**
+   * Ensures that meeting suggestions make logical sense.
+   * That is, end comes after start and the entire meeting
+   * duration is encompassed.
+   */
   public boolean logicCheck(int start, int end, int duration) {
     return (start < end) && (start + duration <= end);
   }
