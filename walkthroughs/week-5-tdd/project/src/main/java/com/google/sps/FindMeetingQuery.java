@@ -55,32 +55,56 @@ public final class FindMeetingQuery {
     // Attendees exist AND there are events AND the duration is acceptable (less than a day).
     // Determine which events count (i.e. meeting invitees are
     // attending those events).
-    List<Event> relevantEvents = countingEvents(events, request);
+
+    // First, determine which events count for all MANDATORY attendees.
+    // This will be used in the case that no slots are available for
+    // ALL attendees.
+    List<Event> relEvents = getRelevantEvents(events, request, request.getAttendees());
+
+    // Determine which events count for ALL attendees, mandatory
+    // and optional.
+    List<String> allAttendees = new ArrayList<String>(request.getAttendees());
+    allAttendees.addAll(request.getOptionalAttendees());
+    List<Event> allRelEvents = getRelevantEvents(events, request, allAttendees);
  
-    // If no attendees have any event conflicts; all slots work.
-    if (relevantEvents.size() < 1) {
+    // If no attendees (mandatory or optional)
+    // have any event conflicts; all slots work.
+    if (allRelEvents.size() < 1) {
       System.out.println("No relevant event conflicts; all slots work.");
       return allSlots();
     }
  
+    // Working with ALL attendees:
     /* Address contained events. */
-    relevantEvents = removeContainedEvents(relevantEvents);
+    allRelEvents = removeContainedEvents(allRelEvents);
  
     /* Provide available meeting slots. */
-    return getAvailableSlots(relevantEvents, request);
+    List<TimeRange> allConsideredSlots = getAvailableSlots(allRelEvents, request);
+
+    // If there are no slots, remove optional attendees, then try again.
+    // Else, return slots as is.
+    if (!allConsideredSlots.isEmpty()) {
+      return allConsideredSlots;
+    } else {
+      // Working with MANDATORY attendees:
+      System.out.println("NONE FOUND: No meetings available for all attendees.");
+      System.out.println("Finding events for mandatory attendees...");
+      return getAvailableSlots(removeContainedEvents(relEvents), request);
+    }
   }
- 
+
+
   /* FIND RELEVANT EVENTS */
   // Figure out which events actually matter - i.e.
   // a meeting invitee is attending the event - then sort them
   // by start time as they are added to the relevant events list.
-  public List<Event> countingEvents(Collection<Event> events, MeetingRequest request) {
+  public List<Event> getRelevantEvents(Collection<Event> events, MeetingRequest request, Collection<String> invitees) {
     List<Event> relevantEvents = new ArrayList<Event>();
     for (Event event:events) {
       relevantAttendee:
       for (String attendee:event.getAttendees()) {
         // Check if a meeting attendee is attending the event.
-        if (request.getAttendees().contains(attendee)) {
+        if (invitees.contains(attendee)) {
           int idx = 0;
           System.out.println("RELEVANT ATTENDEE FOUND: One of the attendees, " + attendee + " has an event obligation.");
             int relEventsSize = relevantEvents.size();
