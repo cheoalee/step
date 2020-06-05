@@ -30,13 +30,11 @@ public final class FindMeetingQuery {
     /* General Cases */
     // If the duration is too long, return no slots.
     if(request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
-      System.out.println("Duration is too long.");
       return new ArrayList<TimeRange>();
     }
  
     // If no conflicts (no events) exist, return all slots.
     if (events.isEmpty()) {
-      System.out.println("No events; all slots work.");
       return allSlots();
     }
  
@@ -51,7 +49,6 @@ public final class FindMeetingQuery {
     }
  
     if (!attendeesExist) {
-      System.out.println("No attendees; all slots work.");
       return allSlots();
     }
 
@@ -80,7 +77,6 @@ public final class FindMeetingQuery {
      * have any event conflicts, all slots work.
      */
     if (allRelEvents.size() < 1) {
-      System.out.println("No relevant event conflicts; all slots work.");
       return allSlots();
     }
  
@@ -99,8 +95,6 @@ public final class FindMeetingQuery {
       return allConsideredSlots;
     } else {
       // Working with MANDATORY attendees.
-      System.out.println("NONE FOUND: No meetings available for all attendees.");
-      System.out.println("Finding events for mandatory attendees...");
       return getAvailableSlots(removeContainedEvents(relEvents), request);
     }
   }
@@ -113,7 +107,8 @@ public final class FindMeetingQuery {
    * start time as they are added.
    * @return Relevant events sorted by start time.
    */
-  public List<Event> getRelevantEvents(Collection<Event> events, MeetingRequest request, Collection<String> invitees) {
+  public List<Event> getRelevantEvents(Collection<Event> events, MeetingRequest request,
+                                      Collection<String> invitees) {
     List<Event> relevantEvents = new ArrayList<Event>();
     for (Event event:events) {
       relevantAttendee:
@@ -121,19 +116,15 @@ public final class FindMeetingQuery {
         // Check if a meeting attendee is attending the event.
         if (invitees.contains(attendee)) {
           int idx = 0;
-          System.out.println("RELEVANT ATTENDEE FOUND: One of the attendees, " + attendee + " has an event obligation.");
             int relEventsSize = relevantEvents.size();
             // If there exists other relevant events, compare them
             // and sort according to start time.
             if (relEventsSize > 0) {
-              System.out.println("COMPARING: Relevant events already contains an event. Comparing...");
-              System.out.println("EXISTING REL EVENT START: " + relevantEvents.get(idx).getStart());
-              System.out.println("THIS REL EVENT START: " + event.getStart());
-              while (idx < relEventsSize && TimeRange.ORDER_BY_START.compare(event.getWhen(), relevantEvents.get(idx).getWhen()) > 0) {
+              while (idx < relEventsSize && TimeRange.ORDER_BY_START
+                    .compare(event.getWhen(), relevantEvents.get(idx).getWhen()) > 0) {
                 idx++;
               }
             }
-          System.out.println("ADDING RELEVANT EVENT: Event added to relevantEvents at index " + idx + "\n");
           relevantEvents.add(idx, event);
           break relevantAttendee;
         }
