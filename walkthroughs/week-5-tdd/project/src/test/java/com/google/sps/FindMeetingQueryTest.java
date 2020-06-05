@@ -25,7 +25,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
  
-/** */
+/**
+ * Class containing tests for FindMeetingQuery
+ * (i.e. for finding meetings).
+ */
 @RunWith(JUnit4.class)
 public final class FindMeetingQueryTest {
   private static final Collection<Event> NO_EVENTS = Collections.emptySet();
