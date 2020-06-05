@@ -108,7 +108,7 @@ public final class FindMeetingQuery {
    * @return Relevant events sorted by start time.
    */
   public List<Event> getRelevantEvents(Collection<Event> events, MeetingRequest request,
-                                      Collection<String> invitees) {
+                                       Collection<String> invitees) {
     List<Event> relevantEvents = new ArrayList<Event>();
     for (Event event:events) {
       relevantAttendee:
@@ -145,11 +145,9 @@ public final class FindMeetingQuery {
      // to see if this event is contained wholly in the previous event.
      // If so, add it to a list of events to remove.
     while (currEventIdx < relevantEvents.size()) {
-      System.out.println("Checking for contained events...");
       while (eventIdx > 0) {
         Event currEvent = relevantEvents.get(currEventIdx);
         if (relevantEvents.get(eventIdx - 1).getWhen().contains(currEvent.getWhen())) {
-          System.out.println("Contained event found!");
           containedEvents.add(currEvent);
           break;
         }
@@ -161,7 +159,6 @@ public final class FindMeetingQuery {
  
     // Remove contained events.
     for (Event containedEvent:containedEvents) {
-      System.out.println("Removing contained event.");
       relevantEvents.remove(containedEvent);
     }
     return relevantEvents;
@@ -178,13 +175,11 @@ public final class FindMeetingQuery {
     int end = 0;
     int requestDuration = (int) request.getDuration();
     for (Event relEvent:relevantEvents) {
-      System.out.println("TRACKED: Event lasting from " + relEvent.getStart() + " to " + relEvent.getEnd());
       if (eventIdx == 0) {
         start = TimeRange.START_OF_DAY;
         end = relEvent.getStart();
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, false));
-          System.out.println("TIME ADDED (START): From " + start + " to " + end);
         }
       } else {
         int prevEventIdx = eventIdx - 1;
@@ -192,7 +187,6 @@ public final class FindMeetingQuery {
         end = relEvent.getStart();
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, false));
-          System.out.println("TIME ADDED (BTWN): From " + start + " to " + end);
         }
       }
       if (eventIdx == lastEventIdx) {
@@ -200,10 +194,8 @@ public final class FindMeetingQuery {
         end = TimeRange.END_OF_DAY;
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, true));
-          System.out.println("TIME ADDED (END): From " + start + " to " + end);
         }
       }
-      System.out.println("\n");
       eventIdx++;
     }
     return meetingSlots;
