@@ -150,7 +150,7 @@ public class DataServlet extends HttpServlet {
   private String secureReformat(String input) {
     return input.replace("<", "&lt;").replace(">", "&gt;");
   }
-
+  
   /**
    * Returns the choice, for number of comments to display, entered by the visitor,
    * or -1 if the choice was invalid.
