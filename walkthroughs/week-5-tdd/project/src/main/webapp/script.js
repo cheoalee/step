@@ -90,6 +90,7 @@ class MeetingRequest {
   constructor(duration, attendees) {
     this.duration = duration;
     this.attendees = attendees;
+    this.optional_attendees = optionalAttendees;  
   }
 }
 
