@@ -12,21 +12,21 @@
       
     <h1 class="sansserif comment-page title">Comment Submission</h1>
 
-    <form action="/data" id="my-form" method="POST" enctype="multipart/form-data">
-      <label for="visitor-name" class="sansserif comment-page section-sep">Name:</label>
+    <form action="/data" method="POST">
+      <label class="sansserif comment-page section-sep">Name:</label>
       <input type="text" id="username" name="visitor-name" class="sansserif comment-page" required>
 
-      <label for="visitor-name" class="sansserif comment-page section-sep">Comment:</label>
+      <label class="sansserif comment-page section-sep">Comment:</label>
       <textarea name="visitor-comment" class="sansserif comment-page" required></textarea>
 
       <p class="sansserif comment-page">Add some spice:</p>
       <input type="checkbox" name="upper-case" class="sansserif" value="true"><label for="checkbox">Upper-case</label>
 
-      <label for="visitor-choice" class="sansserif comment-page section-sep">How many other comments would you like to see?</label>
+      <label class="sansserif comment-page section-sep">How many other comments would you like to see?</label>
       <input type="number" name="visitor-choice" class="sansserif comment-page" min="0" max="10" value="1">
       <br/>
 
-      <label for="image" class="sansserif comment-page section-sep">Upload an image:</label>
+      <label class="sansserif comment-page section-sep">Upload an image:</label>
       <input type="file" name="image">
       <br/><br/>
 
