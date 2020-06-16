@@ -45,7 +45,6 @@ import com.google.appengine.api.images.ServingUrlOptions;
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  // Number of comments the visitor chooses to see.
 
   /** A comment from a page visitor. */
   private class Comment {
@@ -111,7 +110,6 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
-    int visitorChoice = Integer.parseInt(getParameter(request, "visitorChoice", ""));
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
