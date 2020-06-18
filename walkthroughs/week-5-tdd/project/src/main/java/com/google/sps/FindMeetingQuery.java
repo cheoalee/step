@@ -158,20 +158,20 @@ public final class FindMeetingQuery {
     for (Event relEvent:relevantEvents) {
       if (eventIdx == 0) {
         start = TimeRange.START_OF_DAY;
-        end = relEvent.getStart();
+        end = relEvent.getStartTime();
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, false));
         }
       } else {
         int prevEventIdx = eventIdx - 1;
-        start = relevantEvents.get(prevEventIdx).getEnd();
-        end = relEvent.getStart();
+        start = relevantEvents.get(prevEventIdx).getEndTime();
+        end = relEvent.getStartTime();
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, false));
         }
       }
       if (eventIdx == lastEventIdx) {
-        start = relEvent.getEnd();
+        start = relEvent.getEndTime();
         end = TimeRange.END_OF_DAY;
         if (logicCheck(start, end, requestDuration)) {
           meetingSlots.add(TimeRange.fromStartEnd(start, end, true));

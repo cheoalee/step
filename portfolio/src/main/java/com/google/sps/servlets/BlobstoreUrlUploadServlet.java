@@ -23,8 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * When the fetch() function requests the /blobstore-upload-url URL, the content of the response is
- * the URL that allows a user to upload a file to Blobstore. This servlet returns that URL.
+ * Servlet that returns a URL that allows a user to upload a file to Blobstore.
  */
 @WebServlet("/blobstore-upload-url")
 public class BlobstoreUrlUploadServlet extends HttpServlet {

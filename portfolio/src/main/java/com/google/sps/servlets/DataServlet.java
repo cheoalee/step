@@ -46,30 +46,6 @@ import com.google.appengine.api.images.ServingUrlOptions;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  /** A comment from a page visitor. */
-  private class Comment {
-    long id;
-    String name;
-    String comment;
-    String imageLoc;
-    long timestamp;
-
-   /**
-    * @param entityId Id of the entity, used for Datastore storage.
-    * @param userName The name of the visitor.
-    * @param userComment The content of the comment left by a visitor.
-    * @param imageURL URL of the image submitted by the visitor.
-    * @param submissionTime The time at which the comment was submitted.
-    */
-    private Comment(long entityId, String userName, String userComment, String imageURL, long submissionTime) {
-        id = entityId;
-        name = userName;
-        comment = userComment;
-        imageLoc = imageURL;
-        timestamp = submissionTime;
-    }
-  }   
-
   /**
   * Post to page according to user input.
   * @param request
@@ -109,6 +85,7 @@ public class DataServlet extends HttpServlet {
   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    int visitorChoice = Integer.parseInt(getParameter(request, "visitorChoice", ""));
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -217,15 +194,15 @@ public class DataServlet extends HttpServlet {
       return null;
     }
 
+    // Our form only contains a single file input, so get the first index.
+    BlobKey blobKey = blobKeys.get(0);
+
     // User submitted form without selecting a file, so we can't get a URL. (live server)
     BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
     if (blobInfo.getSize() == 0) {
       blobstoreService.delete(blobKey);
       return null;
     }
-
-    // Our form only contains a single file input, so get the first index.
-    BlobKey blobKey = blobKeys.get(0);
 
     // Use ImagesService to get a URL that points to the uploaded file.
     ImagesService imagesService = ImagesServiceFactory.getImagesService();

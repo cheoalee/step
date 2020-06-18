@@ -182,7 +182,7 @@ let map;
 /* Editable marker that displays when a user clicks in the map. */
 let editMarker;
 
-/** Creates a map that allows users to add markers. */
+/** Create a map that allows users to add markers. */
 function createMap() {
   map = new google.maps.Map(
       document.getElementById('map'),
@@ -197,7 +197,7 @@ function createMap() {
   fetchMarkers();
 }
 
-/** Fetches markers from the backend and adds them to the map. */
+/** Fetch markers from the backend and adds them to the map. */
 function fetchMarkers() {
   fetch('/markers').then(response => response.json()).then((markers) => {
     markers.forEach(
@@ -206,7 +206,7 @@ function fetchMarkers() {
   });
 }
 
-/** Creates a marker that shows a read-only info window when clicked. */
+/** Create a marker that shows a read-only info window when clicked. */
 function createMarkerForDisplay(lat, lng, content) {
   const marker =
       new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
@@ -217,7 +217,7 @@ function createMarkerForDisplay(lat, lng, content) {
   });
 }
 
-/** Sends a marker to the backend for saving. */
+/** Send a marker to the backend for saving. */
 function postMarker(lat, lng, content) {
   const params = new URLSearchParams();
   params.append('lat', lat);
@@ -227,13 +227,8 @@ function postMarker(lat, lng, content) {
   fetch('/markers', {method: 'POST', body: params});
 }
 
-/** Creates a marker that shows a textbox the user can edit. */
+/** Create a marker that shows a textbox the user can edit. */
 function createMarkerForEdit(lat, lng) {
-  // If we're already showing an editable marker, then remove it.
-  if (editMarker) {
-    editMarker.setMap(null);
-  }
-
   editMarker =
       new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
 
@@ -249,7 +244,7 @@ function createMarkerForEdit(lat, lng) {
 }
 
 /**
- * Builds and returns HTML elements that show an editable textbox and a submit
+ * Build and return HTML elements that show an editable textbox and a submit
  * button.
  */
 function buildInfoWindowInput(lat, lng) {
