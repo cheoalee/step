@@ -44,32 +44,7 @@ import com.google.appengine.api.images.ServingUrlOptions;
 
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
-public class DataServlet extends HttpServlet {
-  // Number of comments the visitor chooses to see.
-
-  /** A comment from a page visitor. */
-  private class Comment {
-    long id;
-    String name;
-    String comment;
-    String imageLoc;
-    long timestamp;
-
-   /**
-    * @param entityId Id of the entity, used for Datastore storage.
-    * @param userName The name of the visitor.
-    * @param userComment The content of the comment left by a visitor.
-    * @param imageURL URL of the image submitted by the visitor.
-    * @param submissionTime The time at which the comment was submitted.
-    */
-    private Comment(long entityId, String userName, String userComment, String imageURL, long submissionTime) {
-        id = entityId;
-        name = userName;
-        comment = userComment;
-        imageLoc = imageURL;
-        timestamp = submissionTime;
-    }
-  }   
+public class DataServlet extends HttpServlet { 
 
   /**
   * Post to page according to user input.
@@ -99,7 +74,7 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(taskEntity);
     
-    // Redirect user back to comment form.
+    // Redirect user to comment form.
     response.sendRedirect("/data.html");
   }
 
@@ -193,7 +168,7 @@ public class DataServlet extends HttpServlet {
   }
 
   /**
-   * Converts an ArrayList of Comments into a JSON string using the Gson library. Note: First added
+   * Convert an ArrayList of Comments into a JSON string using the Gson library. Note: First added
    * the Gson library dependency to pom.xml.
    * @param comments Comments from the server.
    * @return Message as a JSON.
@@ -206,7 +181,7 @@ public class DataServlet extends HttpServlet {
   /**
    * Get the URL of the image that the user uploaded to Blobstore.
    * @param request
-   * @param formInputElementName What the file element's name is in blobstore-upload.html.
+   * @param formInputElementName File element's name in blobstore-upload.html.
    * @return A URL that points to the uploaded file, or null if the user didn't upload a file.
    */
   private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
@@ -219,9 +194,6 @@ public class DataServlet extends HttpServlet {
       return null;
     }
 
-    // Our form only contains a single file input, so get the first index.
-    BlobKey blobKey = blobKeys.get(0);
-
     // User submitted form without selecting a file, so we can't get a URL. (live server)
     BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
     if (blobInfo.getSize() == 0) {
@@ -229,11 +201,14 @@ public class DataServlet extends HttpServlet {
       return null;
     }
 
+    // Our form only contains a single file input, so get the first index.
+    BlobKey blobKey = blobKeys.get(0);
+
     // Use ImagesService to get a URL that points to the uploaded file.
     ImagesService imagesService = ImagesServiceFactory.getImagesService();
     ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
 
-    // To support running in Google Cloud Shell with AppEngine's devserver, we must use the relative
+    // To support running in Google Cloud Shell with AppEngine's devserver, use the relative
     // path to the image, rather than the path returned by imagesService which contains a host.
     try {
       URL url = new URL(imagesService.getServingUrl(options));
