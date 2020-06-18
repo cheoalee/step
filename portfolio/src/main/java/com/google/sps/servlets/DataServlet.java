@@ -44,7 +44,31 @@ import com.google.appengine.api.images.ServingUrlOptions;
 
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
-public class DataServlet extends HttpServlet { 
+public class DataServlet extends HttpServlet {
+
+  /** A comment from a page visitor. */
+  private class Comment {
+    long id;
+    String name;
+    String comment;
+    String imageLoc;
+    long timestamp;
+
+   /**
+    * @param entityId Id of the entity, used for Datastore storage.
+    * @param userName The name of the visitor.
+    * @param userComment The content of the comment left by a visitor.
+    * @param imageURL URL of the image submitted by the visitor.
+    * @param submissionTime The time at which the comment was submitted.
+    */
+    private Comment(long entityId, String userName, String userComment, String imageURL, long submissionTime) {
+        id = entityId;
+        name = userName;
+        comment = userComment;
+        imageLoc = imageURL;
+        timestamp = submissionTime;
+    }
+  }   
 
   /**
   * Post to page according to user input.
@@ -86,7 +110,6 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
-    int visitorChoice = Integer.parseInt(getParameter(request, "visitorChoice", ""));
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
