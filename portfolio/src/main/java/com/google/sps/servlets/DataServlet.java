@@ -93,7 +93,6 @@ public class DataServlet extends HttpServlet {
     taskEntity.setProperty("name", name);
     taskEntity.setProperty("comment", comment);
     taskEntity.setProperty("imageLoc", imageURL);
-    taskEntity.setProperty("comment", comment);
     taskEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
