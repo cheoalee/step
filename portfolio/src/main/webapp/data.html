@@ -7,10 +7,11 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-  
-  <body>
+
+  <body onload="fetchBlobstoreUrl()">
       
     <h1 class="sansserif comment-page title">Comment Submission</h1>
+
     <form action="/data" method="POST">
       <label class="sansserif comment-page section-sep">Name:</label>
       <input type="text" id="username" name="visitor-name" class="sansserif comment-page" required>
@@ -25,7 +26,12 @@
       <input type="number" name="visitor-choice" class="sansserif comment-page" min="0" max="10" value="1">
       <br/>
 
+      <label class="sansserif comment-page section-sep">Upload an image:</label>
+      <input type="file" name="image">
+      <br/><br/>
+
       <input type="submit" class="sansserif comment-page section-sep"/>
+
       <button onclick="clearCommentsUsingAsyncAwait()" class="sansserif comment-page">Clear all comments</button>
       <div id="messages-container" class="sansserif comment-page"></div>
     </form>

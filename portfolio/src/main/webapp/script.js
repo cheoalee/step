@@ -162,3 +162,19 @@ async function clearCommentsUsingAsyncAwait() {
   const response = await fetch('/delete-data', {method: 'POST'});
   document.getElementById('messages-container').innerText = "Successfully deleted all Datastore comments.";
 }
+
+ /**
+  * Fetch image from Blobstore (Week 4 API).
+  */
+function fetchBlobstoreUrl() {
+  fetch('/blobstore-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('my-form');
+        // Directs visitor to /my-form-handler, where the text and image
+        // submitted will be shown.
+        messageForm.action = imageUploadUrl;
+      });
+}

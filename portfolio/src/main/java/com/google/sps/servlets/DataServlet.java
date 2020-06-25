@@ -15,8 +15,12 @@
 package com.google.sps.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +33,14 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.blobstore.BlobInfo;
+import com.google.appengine.api.blobstore.BlobInfoFactory;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
+import com.google.appengine.api.images.ServingUrlOptions;
 
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
@@ -36,22 +48,26 @@ public class DataServlet extends HttpServlet {
   // Number of comments the visitor chooses to see.
   int visitorChoice;
 
-/** A comment from a page visitor. */
+  /** A comment from a page visitor. */
   private class Comment {
     long id;
     String name;
     String comment;
+    String imageLoc;
     long timestamp;
 
    /**
     * @param entityId Id of the entity, used for Datastore storage.
+    * @param userName The name of the visitor.
     * @param userComment The content of the comment left by a visitor.
+    * @param imageURL URL of the image submitted by the visitor.
     * @param submissionTime The time at which the comment was submitted.
     */
-    private Comment(long entityId, String userName, String userComment, long submissionTime) {
+    private Comment(long entityId, String userName, String userComment, String imageURL, long submissionTime) {
         id = entityId;
         name = userName;
         comment = userComment;
+        imageLoc = imageURL;
         timestamp = submissionTime;
     }
   }   
@@ -63,10 +79,12 @@ public class DataServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get the input from the form.
+    // Get the visitor choice of # of comments to view.
     visitorChoice = getVisitorChoice(request);
+
     String name = secureReformat(getParameter(request, "visitor-name", ""));
     String comment = secureReformat(getParameter(request, "visitor-comment", ""));
+    String imageURL = getUploadedFileUrl(request, "image");
     long timestamp = System.currentTimeMillis();
     boolean upperCase = Boolean.parseBoolean(getParameter(request, "upper-case", "false"));
 
@@ -79,6 +97,7 @@ public class DataServlet extends HttpServlet {
     Entity taskEntity = new Entity("Task");
     taskEntity.setProperty("name", name);
     taskEntity.setProperty("comment", comment);
+    taskEntity.setProperty("imageLoc", imageURL);
     taskEntity.setProperty("timestamp", timestamp);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -110,9 +129,10 @@ public class DataServlet extends HttpServlet {
         long id = entity.getKey().getId();
         String userName = (String) entity.getProperty("name");
         String userComment = (String) entity.getProperty("comment");
+        String imageLoc = (String) entity.getProperty("imageLoc");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Comment comment = new Comment(id, userName, userComment, timestamp);
+        Comment comment = new Comment(id, userName, userComment, imageLoc, timestamp);
         comments.add(comment);
         commentCount++;
       }
@@ -184,5 +204,45 @@ public class DataServlet extends HttpServlet {
   private String convertToJsonUsingGson(List<Comment> comments) {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     return gson.toJson(comments);
+  }
+
+  /**
+   * Get the URL of the image that the user uploaded to Blobstore.
+   * @param request
+   * @param formInputElementName What the file element's name is in blobstore-upload.html.
+   * @return A URL that points to the uploaded file, or null if the user didn't upload a file.
+   */
+  private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
+    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
+    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
+    List<BlobKey> blobKeys = blobs.get("image");
+
+    // User submitted form without selecting a file, so we can't get a URL. (dev server)
+    if (blobKeys == null || blobKeys.isEmpty()) {
+      return null;
+    }
+
+    // Our form only contains a single file input, so get the first index.
+    BlobKey blobKey = blobKeys.get(0);
+
+    // User submitted form without selecting a file, so we can't get a URL. (live server)
+    BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
+    if (blobInfo.getSize() == 0) {
+      blobstoreService.delete(blobKey);
+      return null;
+    }
+
+    // Use ImagesService to get a URL that points to the uploaded file.
+    ImagesService imagesService = ImagesServiceFactory.getImagesService();
+    ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
+
+    // To support running in Google Cloud Shell with AppEngine's devserver, we must use the relative
+    // path to the image, rather than the path returned by imagesService which contains a host.
+    try {
+      URL url = new URL(imagesService.getServingUrl(options));
+      return url.getPath();
+    } catch (MalformedURLException e) {
+      return imagesService.getServingUrl(options);
+    }
   }
 }
