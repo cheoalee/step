@@ -46,7 +46,7 @@ import com.google.appengine.api.images.ServingUrlOptions;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-/** A comment from a page visitor. */
+  /** A comment from a page visitor. */
   private class Comment {
     long id;
     String name;
