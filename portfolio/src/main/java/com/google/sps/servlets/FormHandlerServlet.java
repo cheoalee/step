@@ -58,42 +58,19 @@ public class FormHandlerServlet extends HttpServlet {
   */
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-    PrintWriter out = response.getWriter();
-
     // Get the message entered by the user.
     String message = request.getParameter("message");
-
-    // Get the BlobKey that points to the image uploaded by the user.
-    BlobKey blobKey = getBlobKey(request, "image");
-
-    // User didn't upload a file, so render an error message.
-    if (blobKey == null) {
-      out.println("Please upload an image file.");
-      return;
-    }
 
     // Get the URL of the image that the user uploaded to Blobstore.
     String imageUrl = getUploadedFileUrl(request, "image");
 
-    // Get the labels of the image that the user uploaded.
-    byte[] blobBytes = getBlobBytes(blobKey);
-    List<EntityAnnotation> imageLabels = getImageLabels(blobBytes);
-
     // Output some HTML that shows the data the user entered.
     // A real codebase would probably store these in Datastore.
+    PrintWriter out = response.getWriter();
     out.println("<p>Here's the image you uploaded:</p>");
     out.println("<a href=\"" + imageUrl + "\">");
     out.println("<img src=\"" + imageUrl + "\" />");
     out.println("</a>");
-
-    out.println("<p>Here are the labels we extracted:</p>");
-    out.println("<ul>");
-    for (EntityAnnotation label : imageLabels) {
-      out.println("<li>" + label.getDescription() + " " + label.getScore());
-    }
-    out.println("</ul>");
-    
     out.println("<p>Here's the text you entered:</p>");
     out.println(message);
   }
@@ -136,95 +113,5 @@ public class FormHandlerServlet extends HttpServlet {
     } catch (MalformedURLException e) {
       return imagesService.getServingUrl(options);
     }
-  }
-
-  /**
-   * Returns the BlobKey that points to the file uploaded by the user, or null if the user didn't
-   * upload a file.
-   * @param request
-   * @param formInputElementName What the file element's name is in blobstore-upload.html.
-   * @return The Blobkey for the uploaded file.
-   */
-  private BlobKey getBlobKey(HttpServletRequest request, String formInputElementName) {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    Map<String, List<BlobKey>> blobs = blobstoreService.getUploads(request);
-    List<BlobKey> blobKeys = blobs.get("image");
-
-    // User submitted form without selecting a file, so we can't get a BlobKey. (dev server)
-    if (blobKeys == null || blobKeys.isEmpty()) {
-      return null;
-    }
-
-    // Our form only contains a single file input, so get the first index.
-    BlobKey blobKey = blobKeys.get(0);
-
-    // User submitted form without selecting a file, so the BlobKey is empty. (live server)
-    BlobInfo blobInfo = new BlobInfoFactory().loadBlobInfo(blobKey);
-    if (blobInfo.getSize() == 0) {
-      blobstoreService.delete(blobKey);
-      return null;
-    }
-
-    return blobKey;
-  }
-
-  /**
-   * Blobstore stores files as binary data. This function retrieves the binary data stored at the
-   * BlobKey parameter.
-   * @param blobKey
-   * @return Bytes of the blob with the given blobKey.
-   */
-  private byte[] getBlobBytes(BlobKey blobKey) throws IOException {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    ByteArrayOutputStream outputBytes = new ByteArrayOutputStream();
-
-    int fetchSize = BlobstoreService.MAX_BLOB_FETCH_SIZE;
-    long currentByteIndex = 0;
-    boolean continueReading = true;
-    while (continueReading) {
-      // End index is inclusive, so we have to subtract 1 to get fetchSize bytes.
-      byte[] b =
-          blobstoreService.fetchData(blobKey, currentByteIndex, currentByteIndex + fetchSize - 1);
-      outputBytes.write(b);
-
-      // If we read fewer bytes than we requested, then we reached the end.
-      if (b.length < fetchSize) {
-        continueReading = false;
-      }
-
-      currentByteIndex += fetchSize;
-    }
-
-    return outputBytes.toByteArray();
-  }
-
-  /**
-   * Uses the Google Cloud Vision API to generate a list of labels that apply to the image
-   * represented by the binary data stored in imgBytes.
-   * @param imgBytes 
-   * @return list of labels generated for the image with the given bytes.
-   */
-  private List<EntityAnnotation> getImageLabels(byte[] imgBytes) throws IOException {
-    ByteString byteString = ByteString.copyFrom(imgBytes);
-    Image image = Image.newBuilder().setContent(byteString).build();
-
-    Feature feature = Feature.newBuilder().setType(Feature.Type.LABEL_DETECTION).build();
-    AnnotateImageRequest request =
-        AnnotateImageRequest.newBuilder().addFeatures(feature).setImage(image).build();
-    List<AnnotateImageRequest> requests = new ArrayList<>();
-    requests.add(request);
-
-    ImageAnnotatorClient client = ImageAnnotatorClient.create();
-    BatchAnnotateImagesResponse batchResponse = client.batchAnnotateImages(requests);
-    client.close();
-    List<AnnotateImageResponse> imageResponses = batchResponse.getResponsesList();
-    AnnotateImageResponse imageResponse = imageResponses.get(0);
-
-    if (imageResponse.hasError()) {
-      System.err.println("Error getting image labels: " + imageResponse.getError().getMessage());
-      return null;
-    }
-
-    return imageResponse.getLabelAnnotationsList();
   }
 }

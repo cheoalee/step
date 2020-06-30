@@ -47,9 +47,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  // Number of comments the visitor chooses to see.
-  int visitorChoice;
-
+  
   /** A comment from a page visitor. */
   private class Comment {
     long id;
@@ -85,9 +83,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
-    // Get the visitor choice of # of comments to view.
-    visitorChoice = getVisitorChoice(request);
-
+    
     String name = secureReformat(getParameter(request, "visitor-name", ""));
     String email = secureReformat(userService.getCurrentUser().getEmail());
     String comment = secureReformat(getParameter(request, "visitor-comment", ""));
@@ -110,9 +106,9 @@ public class DataServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(taskEntity);
-
-    // Bring user to comments section
-    response.sendRedirect("/data");
+    
+    // Redirect user back to comment form.
+    response.sendRedirect("/data.html");
   }
 
  /**
@@ -123,11 +119,12 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
+    int visitorChoice = Integer.parseInt(getParameter(request, "visitorChoice", ""));
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    List<Comment> comments = new ArrayList<>();
+    List<String> comments = new ArrayList<>();
     int commentCount = 0;
     iterateEntities:
     for (Entity entity : results.asIterable()) {
@@ -141,8 +138,8 @@ public class DataServlet extends HttpServlet {
         String imageLoc = (String) entity.getProperty("imageLoc");
         long timestamp = (long) entity.getProperty("timestamp");
 
-        Comment comment = new Comment(id, userName, userEmail, userComment, imageLoc, timestamp);
-        comments.add(comment);
+        comments.add("<p>" + userName + ": " + userComment + "</p>" +
+                    "<img src=" + imageLoc + " alt='Visitor-submitted image'>");
         commentCount++;
       }
     }
@@ -209,7 +206,7 @@ public class DataServlet extends HttpServlet {
    * @param comments Comments from the server.
    * @return Message as a JSON.
    */
-  private String convertToJsonUsingGson(List<Comment> comments) {
+  private String convertToJsonUsingGson(List<String> comments) {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
     return gson.toJson(comments);
   }
