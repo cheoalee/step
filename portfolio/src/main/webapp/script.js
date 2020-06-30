@@ -382,3 +382,44 @@ function buildInfoWindowInput(lat, lng) {
 
   return containerDiv;
 }
+
+ /**
+  * Fetch image from Blobstore (Week 4 API).
+  */
+function fetchBlobstoreUrl() {
+  fetch('/blobstore-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('comment-form');
+        // Directs visitor to /my-form-handler, where the text and image
+        // submitted will be shown.
+        messageForm.action = imageUploadUrl;
+      });
+}
+
+ /**
+  * Fetch login status from LoginServlet.java.
+  */
+function getLoginStatus() {
+  fetch('/login').then(response => response.text()).then((msg) => {
+    if (msg) {
+      console.log("Not logged in!");
+      var a = document.createElement('a');
+      a.setAttribute('href', msg);
+      a.innerHTML = "Log in";
+      document.body.appendChild(a);
+    } else {
+      const commentForm = document.getElementById('comment-form');
+      commentForm.classList.remove('hidden');
+      const portalAccess = document.getElementById('portal');
+      portalAccess.classList.remove('hidden');
+    }
+  });
+}
+
+function initialization() {
+  fetchBlobstoreUrl();
+  getLoginStatus();
+}
