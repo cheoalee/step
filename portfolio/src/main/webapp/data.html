@@ -7,12 +7,12 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
-
-  <body onload="initialize()">
-    
+  
+  <body onload="initialization()">
+      
     <h1 class="sansserif comment-page title">Comment Submission</h1>
 
-    <form id="my-form" action="/data" method="POST" enctype="multipart/form-data">
+    <form id="comment-form" action="/data" class="hidden" method="POST" enctype="multipart/form-data">
       <label class="sansserif comment-page section-sep">Name:</label>
       <input type="text" id="username" name="visitor-name" class="sansserif comment-page" required>
 
@@ -38,6 +38,10 @@
     <br/>
     
     <ul id="comments-container"></ul>
+
+    <form id="portal" action="/portal" class="hidden">
+        <input type="submit" value="Go to User Portal" />
+    </form>
 
   </body>
 
