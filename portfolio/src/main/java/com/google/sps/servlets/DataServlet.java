@@ -107,7 +107,7 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(taskEntity);
     
-    // Redirect user back to comment form.
+    // Redirect user to comment form.
     response.sendRedirect("/data.html");
   }
 
@@ -118,6 +118,7 @@ public class DataServlet extends HttpServlet {
   */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    int visitorChoice = Integer.parseInt(getParameter(request, "visitorChoice", ""));
     Query query = new Query("Task").addSort("timestamp", SortDirection.DESCENDING);
     int visitorChoice = Integer.parseInt(getParameter(request, "visitorChoice", ""));
 
@@ -201,7 +202,7 @@ public class DataServlet extends HttpServlet {
   }
 
   /**
-   * Converts an ArrayList of Comments into a JSON string using the Gson library. Note: First added
+   * Convert an ArrayList of Comments into a JSON string using the Gson library. Note: First added
    * the Gson library dependency to pom.xml.
    * @param comments Comments from the server.
    * @return Message as a JSON.
@@ -214,7 +215,7 @@ public class DataServlet extends HttpServlet {
   /**
    * Get the URL of the image that the user uploaded to Blobstore.
    * @param request
-   * @param formInputElementName What the file element's name is in blobstore-upload.html.
+   * @param formInputElementName File element's name in blobstore-upload.html.
    * @return A URL that points to the uploaded file, or null if the user didn't upload a file.
    */
   private String getUploadedFileUrl(HttpServletRequest request, String formInputElementName) {
@@ -241,7 +242,7 @@ public class DataServlet extends HttpServlet {
     ImagesService imagesService = ImagesServiceFactory.getImagesService();
     ServingUrlOptions options = ServingUrlOptions.Builder.withBlobKey(blobKey);
 
-    // To support running in Google Cloud Shell with AppEngine's devserver, we must use the relative
+    // To support running in Google Cloud Shell with AppEngine's devserver, use the relative
     // path to the image, rather than the path returned by imagesService which contains a host.
     try {
       URL url = new URL(imagesService.getServingUrl(options));
