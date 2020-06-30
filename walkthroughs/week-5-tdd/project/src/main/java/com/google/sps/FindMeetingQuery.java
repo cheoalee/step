@@ -61,23 +61,42 @@ public final class FindMeetingQuery {
      */
 
     /* 
-     * Determine which events count for all mandatory attendees.
+     * First, determine which events count for all MANDATORY attendees.
+     * This will be used in the case that no slots are available for
+     * ALL attendees (MANDATORY and OPTIONAL).
      */
     List<Event> relEvents = getRelevantEvents(events, request, request.getAttendees());
+
+    // Determine which events count for ALL attendees.
+    List<String> allAttendees = new ArrayList<String>(request.getAttendees());
+    allAttendees.addAll(request.getOptionalAttendees());
+    List<Event> allRelEvents = getRelevantEvents(events, request, allAttendees);
  
     /*
      * If no attendees (MANDATORY or OPTIONAL)
      * have any event conflicts, all slots work.
      */
-    if (relEvents.size() < 1) {
+    if (allRelEvents.size() < 1) {
       return allSlots();
     }
  
     /* Address contained events. */
-    relEvents = removeContainedEvents(relEvents);
+    allRelEvents = removeContainedEvents(allRelEvents);
  
     /* Provide available meeting slots. */
-    return getAvailableSlots(relEvents, request);
+    List<TimeRange> allConsideredSlots = getAvailableSlots(allRelEvents, request);
+
+    /* 
+     * If there are no slots available,
+     * remove optional attendees, then try again.
+     * Else, return slots as they are.
+     */
+    if (!allConsideredSlots.isEmpty()) {
+      return allConsideredSlots;
+    } else {
+      // Working with MANDATORY attendees.
+      return getAvailableSlots(removeContainedEvents(relEvents), request);
+    }
   }
 
 

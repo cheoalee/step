@@ -47,7 +47,7 @@ import com.google.appengine.api.users.UserServiceFactory;
 /** Servlet that handles comments, feeding into and reading from Datastore.*/
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  
+
   /** A comment from a page visitor. */
   private class Comment {
     long id;

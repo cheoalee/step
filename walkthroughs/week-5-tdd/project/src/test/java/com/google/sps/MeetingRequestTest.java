@@ -25,7 +25,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** */
+/**
+ * Class containing tests for Meeting Requests
+ * (MeetingRequest).
+ */
 @RunWith(JUnit4.class)
 public final class MeetingRequestTest {
   // Some people that we can use in our tests.

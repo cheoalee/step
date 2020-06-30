@@ -67,14 +67,14 @@ public final class Event {
     return when;
   }
  
-    /**
+  /**
    * Return the start time for this event.
    */
   public int getStartTime() {
     return when.start();
   }
  
-    /**
+  /**
    * Return the end time for this event.
    */
   public int getEndTime() {

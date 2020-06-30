@@ -20,6 +20,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
+/**
+ * Class representing a request for a meeting.
+ */
 public final class MeetingRequest {
   // All the people that should be attending this new meeting. Use a set to avoid duplicates.
   private final Collection<String> attendees = new HashSet<>();

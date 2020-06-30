@@ -20,7 +20,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-/** */
+/**
+ * Class containing tests for TimeRange.
+ */
 @RunWith(JUnit4.class)
 public final class TimeRangeTest {
   @Test
