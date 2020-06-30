@@ -14,31 +14,28 @@
 
 package com.google.sps.servlets;
 
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.datastore.*;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet that returns a URL that allows a user to upload a file to Blobstore.
- */
-@WebServlet("/blobstore-upload-url")
-public class BlobstoreUrlUploadServlet extends HttpServlet {
+@WebServlet("/portal")
+public class PortalServlet extends HttpServlet {
 
- /**
-  * Gets the blobstore URL that allows users to upload a file to Blobstore.
-  * @param request
-  * @param response
-  */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
-    String uploadUrl = blobstoreService.createUploadUrl("/data");
-
+    UserService userService = UserServiceFactory.getUserService();
     response.setContentType("text/html");
-    response.getWriter().println(uploadUrl);
+    PrintWriter out = response.getWriter();
+
+    String logoutUrl = userService.createLogoutURL("/data.html");
+    out.println("<h1>Portal</h1>");
+    out.println("<p>Hello!</p>");
+    out.println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
   }
 }

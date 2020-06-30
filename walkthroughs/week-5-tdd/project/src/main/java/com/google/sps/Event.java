@@ -29,7 +29,7 @@ public final class Event {
   private final Set<String> attendees = new HashSet<>();
  
   /**
-   * Creates a new event.
+   * Create a new event.
    *
    * @param title The human-readable name for the event. Must be non-null.
    * @param when The time when the event takes place. Must be non-null.
@@ -54,35 +54,35 @@ public final class Event {
   }
  
   /**
-   * Returns the human-readable name for this event.
+   * Return the human-readable name for this event.
    */
   public String getTitle() {
     return title;
   }
  
   /**
-   * Returns the {@code TimeRange} for when this event occurs.
+   * Return the {@code TimeRange} for when this event occurs.
    */
   public TimeRange getWhen() {
     return when;
   }
  
-    /**
-   * Returns the start time for this event.
+  /**
+   * Return the start time for this event.
    */
-  public int getStart() {
+  public int getStartTime() {
     return when.start();
   }
  
-    /**
-   * Returns the end time for this event.
+  /**
+   * Return the end time for this event.
    */
-  public int getEnd() {
+  public int getEndTime() {
     return when.end();
   }
  
   /**
-   * Returns a read-only set of required attendees for this event.
+   * Return a read-only set of required attendees for this event.
    */
   public Set<String> getAttendees() {
     // Return the attendees as an unmodifiable set so that the caller can't change our
